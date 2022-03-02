@@ -1,40 +1,41 @@
 <template>
   <el-menu
     default-active="2"
-    class="el-menu-vertical-demo"
+    class="dashboard-sidebar"
     @open="handleOpen"
     @close="handleClose"
-    :collapse="isCollapse"
+    :collapse="isCollapsed"
   >
-    <el-submenu index="1">
-      <template slot="title">
-        <i class="el-icon-location"></i>
-        <span slot="title">Navigator One</span>
-      </template>
-      <el-menu-item-group>
-        <span slot="title">Group One</span>
-        <el-menu-item index="1-1">item one</el-menu-item>
-        <el-menu-item index="1-2">item two</el-menu-item>
-      </el-menu-item-group>
-      <el-menu-item-group title="Group Two">
-        <el-menu-item index="1-3">item three</el-menu-item>
-      </el-menu-item-group>
-      <el-submenu index="1-4">
-        <span slot="title">item four</span>
-        <el-menu-item index="1-4-1">item one</el-menu-item>
-      </el-submenu>
-    </el-submenu>
+    <el-menu-item index="1" class="brand__info__item">
+      <div class="brand__info">
+        <img
+          class="brand-logo"
+          src="@/assets/images/luffy chibi.png"
+          alt="Brand Logo"
+        />
+        <div class="info">
+          <h4 class="brand__title">Luffy</h4>
+          <p class="brand__subtitle">Strawhat Pirates</p>
+        </div>
+      </div>
+    </el-menu-item>
+
     <el-menu-item index="2">
       <i class="el-icon-menu"></i>
-      <span slot="title">Navigator Two</span>
+      <span slot="title">Dashboard</span>
     </el-menu-item>
-    <el-menu-item index="3" disabled>
-      <i class="el-icon-document"></i>
-      <span slot="title">Navigator Three</span>
-    </el-menu-item>
-    <el-menu-item index="4">
+    <el-menu-item index="3">
       <i class="el-icon-setting"></i>
-      <span slot="title">Navigator Four</span>
+      <span slot="title">Projecs</span>
+    </el-menu-item>
+
+    <el-menu-item @click="isCollapsed = !isCollapsed" index="4">
+      <i
+        :class="[
+          isCollapsed ? 'el-icon-d-arrow-right' : 'el-icon-d-arrow-left',
+        ]"
+      ></i>
+      <span slot="title">Toggle Collapse</span>
     </el-menu-item>
   </el-menu>
 </template>
@@ -43,7 +44,7 @@
 export default {
   data() {
     return {
-      isCollapse: true,
+      isCollapsed: false,
     };
   },
   methods: {
@@ -57,9 +58,85 @@ export default {
 };
 </script>
 
-<style scoped>
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
-  min-height: 400px;
+<style scoped lang="scss">
+.el-menu-item:not(.brand__info__item) {
+  height: 40px;
+  margin-bottom: 12px;
+  padding-block: 1.2rem;
+  display: flex !important;
+  align-items: center !important;
+  border-radius: 5px;
+}
+
+.el-menu-item.brand__info__item {
+  padding: 0 8px;
+  width: 100%;
+  padding-left: 8px !important;
+}
+.dashboard-sidebar {
+  @include themed() {
+    background: t($bg-secondary);
+  }
+}
+.dashboard-sidebar:not(.el-menu--collapse) {
+  width: 300px;
+  height: 100vh;
+
+  .brand__info {
+    .info {
+      display: block;
+      & > * {
+        line-height: 1.6;
+      }
+    }
+  }
+}
+
+.el-menu-item {
+  max-width: 85%;
+  margin-inline: auto;
+}
+
+.el-menu-item.brand__info__item {
+  max-width: 95%;
+}
+
+.brand__info__item {
+  margin-bottom: 4rem;
+}
+
+.brand__info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 1rem 0;
+
+  .brand-logo {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    /* margin: 0 auto; */
+  }
+
+  .info {
+    display: none;
+  }
+}
+
+.el-menu-item.is-active {
+  @include themed() {
+    background-color: t($link-primary) !important;
+    color: white;
+  }
+}
+</style>
+
+<style lang="scss">
+.dashboard-sidebar .el-menu-item:not(.brand__info__item) {
+  .el-tooltip {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center;
+  }
 }
 </style>

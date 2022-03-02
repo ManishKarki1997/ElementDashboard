@@ -1,27 +1,4 @@
-@import "../abstracts/variables";
-
-$themes: (
-  light: (
-    bg-primary: $bg-primary--light,
-    bg-secondary: $bg-secondary--light,
-    bg-tertiary: $bg-tertiary--light,
-    text-primary: $text-primary--light,
-    text-secondary: $text-secondary--light,
-    text-tertiary: $text-tertiary--light,
-    link: $link,
-    link-hover: $link-hover,
-  ),
-  dark: (
-    bg-primary: $bg-primary--dark,
-    bg-secondary: $bg-secondary--dark,
-    bg-tertiary: $bg-tertiary--dark,
-    text-primary: $text-primary--dark,
-    text-secondary: $text-secondary--dark,
-    text-tertiary: $text-tertiary--dark,
-    link: $link,
-    link-hover: $link-hover,
-  ),
-);
+@import "../themes/theme";
 
 @mixin themed() {
   @each $theme, $map in $themes {

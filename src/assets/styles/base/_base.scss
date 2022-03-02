@@ -1,8 +1,11 @@
-@import "../abstracts/mixins";
-
 #app {
   @include themed() {
-    color: t("text-primary");
-    background: t("bg-primary");
+    color: t($text-primary);
+    background: t($bg-primary);
   }
+}
+
+.container {
+  width: calc(min(90%, 1536px));
+  margin-inline: auto;
 }
