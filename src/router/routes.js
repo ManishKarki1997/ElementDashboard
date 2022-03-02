@@ -5,7 +5,8 @@ export default [
     meta: {
       name: "Home",
     },
-    component: () => import("../pages/Home"),
+    component: () => import("../pages/Dashboard"),
+    // component: () => import("../pages/Home"),
   },
   {
     path: "/app",
@@ -13,7 +14,8 @@ export default [
     meta: {
       name: "Dashboard",
     },
-    component: () => import("../pages/Dashboard"),
+    component: () => import("../pages/Home"),
+    // component: () => import("../pages/Dashboard"),
   },
   {
     path: "*",

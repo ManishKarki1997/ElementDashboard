@@ -1,15 +1,25 @@
 <template>
   <div class="dashboard-home">
-    <h4>Dashboard</h4>
+    <Sidebar />
+    <h4>Home</h4>
     <p>
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quod nobis cum
-      maiores commodi in accusamus tempora ducimus, dicta dignissimos officiis!
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae ipsa
+      cumque totam nostrum quam et quibusdam impedit minus ducimus unde?
     </p>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  components: {
+    Sidebar: () => import("@/components/Dashboard/Sidebar"),
+  },
+};
 </script>
 
-<style></style>
+<style scoped>
+.dashboard-home {
+  min-height: 100vh;
+  display: flex;
+}
+</style>

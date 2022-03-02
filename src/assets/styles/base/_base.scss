@@ -1,0 +1,8 @@
+@import "../abstracts/mixins";
+
+#app {
+  @include themed() {
+    color: t("text-primary");
+    background: t("bg-primary");
+  }
+}
