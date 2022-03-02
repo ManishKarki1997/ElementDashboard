@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <el-button type="primary">Primary</el-button>
+    <router-view></router-view>
   </div>
 </template>
 
