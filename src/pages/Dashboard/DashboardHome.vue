@@ -1,15 +1,15 @@
 <template>
   <div class="dashboard__page dashboard-index">
-    <h4>Home</h4>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae ipsa
-      cumque totam nostrum quam et quibusdam impedit minus ducimus unde?
-    </p>
+    <DashboardStat />
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  components: {
+    DashboardStat: () => import("@/components/Dashboard/DashboardStat"),
+  },
+};
 </script>
 
 <style></style>

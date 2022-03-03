@@ -1,4 +1,36 @@
-.danger__link:focus,
-.danger__link:hover {
-  color: #f56c6c !important;
+.el-dropdown-menu__item.danger:focus,
+.el-dropdown-menu__item.danger:hover {
+  color: #f56c6c;
+}
+
+.el-dropdown-menu.has-shadow {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 2px -1px rgba(0, 0, 0, 0.2) !important;
+}
+.el-dropdown-menu.has-no-padding-block {
+  padding-block: 0;
+}
+
+.el-dropdown-menu.has-bg {
+  min-width: 150px !important;
+
+  .user_profile_dropdown_item.el-dropdown-menu__item {
+    padding: 0 8px;
+    margin: 0 8px !important;
+    margin-bottom: 8px !important;
+
+    @include radius($small);
+
+    &:hover {
+      @include themed() {
+        background-color: t($bg-icon-button) !important;
+      }
+    }
+
+    &.danger {
+      &:hover {
+        background-color: #f56c6c50 !important;
+        color: #f56c6c;
+      }
+    }
+  }
 }

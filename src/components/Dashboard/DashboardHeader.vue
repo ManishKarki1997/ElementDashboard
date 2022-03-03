@@ -17,7 +17,11 @@
         </el-badge>
       </div>
 
-      <el-dropdown @command="handleDropdownCommand" trigger="click">
+      <el-dropdown
+        @command="handleDropdownCommand"
+        trigger="click"
+        placement="bottom-start"
+      >
         <div class="header__item user__profile">
           <div class="user__image">
             <img src="@/assets/images/luffy clueless.jpg" alt="User Image" />
@@ -28,11 +32,18 @@
           </div>
         </div>
 
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item icon="el-icon-user">Profile</el-dropdown-item>
+        <el-dropdown-menu
+          class="has-bg has-shadow has-no-padding-block"
+          slot="dropdown"
+        >
+          <el-dropdown-item
+            class="user_profile_dropdown_item"
+            icon="el-icon-user"
+            >Profile</el-dropdown-item
+          >
           <el-dropdown-item
             command="LOGOUT"
-            class="logout__item danger__link"
+            class="logout__item danger user_profile_dropdown_item"
             icon="el-icon-remove-outline"
             >Logout</el-dropdown-item
           >
@@ -66,59 +77,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.dashboard__header {
-  padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-
-  @include themed() {
-    background-color: t($bg-secondary);
-  }
-
-  .header__right {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-
-    .header__item {
-      i {
-        font-size: 1.2rem;
-      }
-    }
-
-    .user__profile {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-left: 1rem;
-      cursor: pointer;
-
-      .user__image {
-        width: 48px;
-        height: 48px;
-        border-radius: 8px;
-        overflow: hidden;
-
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-      }
-
-      .user__details {
-        p {
-          font-size: 0.9rem;
-          @include themed() {
-            color: t($text-secondary);
-          }
-        }
-      }
-    }
-  }
-}
-</style>

@@ -1,5 +1,5 @@
 .icon__button {
-  border-radius: 8px;
+  @include radius($large);
   padding: 8px 14px;
   cursor: pointer;
 

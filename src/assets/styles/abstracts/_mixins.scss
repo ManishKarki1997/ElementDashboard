@@ -22,3 +22,13 @@
 @function t($key) {
   @return map-get($theme-map, $key);
 }
+
+@mixin box-shadow($params: $shadow) {
+  -webkit-box-shadow: $params;
+  -moz-box-shadow: $params;
+  box-shadow: $params;
+}
+
+@mixin radius($params: $small) {
+  border-radius: $params;
+}
