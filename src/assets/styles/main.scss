@@ -4,3 +4,12 @@
 
 @import "./abstracts/theme-enums";
 @import "./abstracts/mixins";
+
+// components
+@import "./components/index.scss";
+
+// themes
+@import "./themes/app-theme.scss";
+
+// vendors
+@import "./vendors/index.scss";

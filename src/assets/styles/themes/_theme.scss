@@ -2,6 +2,7 @@
 
 $themes: (
   light: (
+    brand-color: $brand-color--light,
     bg-primary: $bg-primary--light,
     bg-secondary: $bg-secondary--light,
     bg-tertiary: $bg-tertiary--light,
@@ -10,8 +11,11 @@ $themes: (
     text-tertiary: $text-tertiary--light,
     link-primary: $link-primary--light,
     link-primary-hover: $link-primary-hover--light,
+    bg-icon-button: $bg-icon-button--light,
+    bg-icon-button-hover: $bg-icon-button-hover--light,
   ),
   dark: (
+    brand-color: $brand-color--dark,
     bg-primary: $bg-primary--dark,
     bg-secondary: $bg-secondary--dark,
     bg-tertiary: $bg-tertiary--dark,
@@ -20,5 +24,7 @@ $themes: (
     text-tertiary: $text-tertiary--dark,
     link-primary: $link-primary--dark,
     link-primary-hover: $link-primary-hover--dark,
+    bg-icon-button: $bg-icon-button--dark,
+    bg-icon-button-hover: $bg-icon-button-hover--dark,
   ),
 );

@@ -1,0 +1,39 @@
+// dialog modal styles
+.el-message-box {
+  border: none !important;
+}
+
+.dialog__danger {
+  .el-message-box__header {
+    background-color: #f56c6c;
+
+    span {
+      color: white;
+    }
+  }
+
+  .el-button:not(.el-button--primary) {
+    span {
+      @include themed() {
+        color: t($text-secondary);
+      }
+
+      &:hover {
+        @include themed() {
+          color: t($text-primary);
+        }
+      }
+    }
+  }
+
+  .el-button.el-button--primary {
+    border-color: #f56c6c;
+    background-color: #f56c6c;
+    color: white;
+
+    &:hover {
+      border-color: #f56c6c;
+      background-color: #f85858;
+    }
+  }
+}

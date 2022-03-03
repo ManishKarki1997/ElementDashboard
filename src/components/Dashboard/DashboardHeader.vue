@@ -1,0 +1,124 @@
+<template>
+  <div class="dashboard__header">
+    <div class="header__left">
+      <h2>Dashboard</h2>
+    </div>
+
+    <div class="header__right">
+      <div class="header__item icon__button">
+        <el-badge is-dot class="item">
+          <i class="el-icon-chat-line-round"></i>
+        </el-badge>
+      </div>
+
+      <div class="header__item icon__button">
+        <el-badge is-dot class="item">
+          <i class="el-icon-bell"></i>
+        </el-badge>
+      </div>
+
+      <el-dropdown @command="handleDropdownCommand" trigger="click">
+        <div class="header__item user__profile">
+          <div class="user__image">
+            <img src="@/assets/images/luffy clueless.jpg" alt="User Image" />
+          </div>
+          <div class="user__details">
+            <h4>Monkey D. Luffy</h4>
+            <p>Strawhat Pirates</p>
+          </div>
+        </div>
+
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item icon="el-icon-user">Profile</el-dropdown-item>
+          <el-dropdown-item
+            command="LOGOUT"
+            class="logout__item danger__link"
+            icon="el-icon-remove-outline"
+            >Logout</el-dropdown-item
+          >
+        </el-dropdown-menu>
+      </el-dropdown>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  methods: {
+    handleDropdownCommand(command) {
+      if (command === "LOGOUT") {
+        this.onClickLogout();
+      }
+    },
+    onClickLogout() {
+      this.$confirm(`Do you really want to logout?`, "Log Out?", {
+        confirmButtonText: "Logout",
+        cancelButtonText: "Cancel",
+        type: "error",
+        customClass: "dialog__danger",
+      }).then(() => {
+        this.$message({
+          message: "Logged out successfully",
+          type: "success",
+        });
+      });
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.dashboard__header {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  @include themed() {
+    background-color: t($bg-secondary);
+  }
+
+  .header__right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .header__item {
+      i {
+        font-size: 1.2rem;
+      }
+    }
+
+    .user__profile {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: 1rem;
+      cursor: pointer;
+
+      .user__image {
+        width: 48px;
+        height: 48px;
+        border-radius: 8px;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .user__details {
+        p {
+          font-size: 0.9rem;
+          @include themed() {
+            color: t($text-secondary);
+          }
+        }
+      }
+    }
+  }
+}
+</style>
