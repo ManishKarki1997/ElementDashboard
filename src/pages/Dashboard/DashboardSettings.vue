@@ -1,6 +1,6 @@
 <template>
-  <div class="home">
-    <h4>Home</h4>
+  <div class="dashboard__page dashboard-settings">
+    <h4>Settings</h4>
     <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae ipsa
       cumque totam nostrum quam et quibusdam impedit minus ducimus unde?
@@ -9,11 +9,7 @@
 </template>
 
 <script>
-export default {
-  mounted() {
-    this.$router.push("/app");
-  },
-};
+export default {};
 </script>
 
 <style></style>

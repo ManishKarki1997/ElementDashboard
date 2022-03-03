@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="dashboard__page dashboard-index">
     <h4>Home</h4>
     <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae ipsa
@@ -9,11 +9,7 @@
 </template>
 
 <script>
-export default {
-  mounted() {
-    this.$router.push("/app");
-  },
-};
+export default {};
 </script>
 
 <style></style>
