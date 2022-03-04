@@ -1,7 +1,8 @@
 <template>
   <div class="dashboard__header">
     <div class="header__left">
-      <h2>Dashboard</h2>
+      <!-- <h2>Dashboard</h2> -->
+      <h3>{{ pageTitle || "Dashboard" }}</h3>
     </div>
 
     <div class="header__right">
@@ -57,6 +58,11 @@
 import { OPEN_NOTIFICATION_SIDEBAR } from "@/constants/event-names";
 
 export default {
+  computed: {
+    pageTitle() {
+      return this.$route.meta.name;
+    },
+  },
   methods: {
     openNotificationSidebar() {
       this.$bus.emit(OPEN_NOTIFICATION_SIDEBAR);

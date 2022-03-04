@@ -29,6 +29,24 @@ $themes: (
   ),
 );
 
+$palettes: (
+  brandColor: (
+    darkest: #081a33,
+    //80%
+    darker: #103566,
+    //60%
+    dark: #103566,
+    //60%
+    base: #2884ff,
+    light: #539dff,
+    //20% light
+    lighter: #7eb5ff,
+    //40% light
+    lightest: #bfdaff,
+    //70% light
+  ),
+);
+
 // box shadows
 $shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
 $shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);

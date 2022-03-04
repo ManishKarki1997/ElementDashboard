@@ -11,20 +11,35 @@
 .notification {
   display: flex;
   gap: 8px;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1rem;
   cursor: pointer;
-  padding: 4px;
+  padding: 8px 4px;
   @include radius($normal);
 
   &:hover {
     @include themed() {
-      background-color: t($bg-primary);
+      // background-color: t($bg-primary);
+      background-color: colorShade(brandColor, base);
     }
 
     .notification__image {
       @include themed() {
         // background-color: t($bg-icon-button-hover);
         background-color: t($bg-secondary);
+      }
+    }
+
+    .notification__content {
+      .user__name__wrapper .user__name,
+      .user__name__wrapper .bullet {
+        color: white !important;
+      }
+      .user__name__wrapper .notification__date,
+      .notification__text {
+        color: rgb(228, 228, 228) !important;
+      }
+      .notification__text {
+        color: white !important;
       }
     }
   }
