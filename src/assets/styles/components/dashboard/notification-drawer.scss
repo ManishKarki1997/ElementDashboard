@@ -1,0 +1,80 @@
+.notification__drawer header > span {
+  @include themed() {
+    color: t($text-primary);
+    font-weight: 500;
+    font-size: 1.2rem;
+  }
+}
+.notification__list {
+  padding: 0 1rem;
+}
+.notification {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1.2rem;
+  cursor: pointer;
+  padding: 4px;
+  @include radius($normal);
+
+  &:hover {
+    @include themed() {
+      background-color: t($bg-primary);
+    }
+
+    .notification__image {
+      @include themed() {
+        // background-color: t($bg-icon-button-hover);
+        background-color: t($bg-secondary);
+      }
+    }
+  }
+
+  .notification__image {
+    min-width: 50px;
+    min-height: 50px;
+    width: 50px;
+    height: 50px;
+    @include themed() {
+      background-color: t($bg-icon-button);
+    }
+
+    @include radius($normal);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .notification__content {
+    .user__name__wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+
+      .bullet {
+        font-weight: 700;
+        @include themed() {
+          color: t($text-secondary);
+        }
+      }
+
+      .notification__date {
+        font-size: 0.8rem;
+        @include themed() {
+          color: t($text-secondary);
+          font-size: 0.9rem;
+        }
+      }
+    }
+
+    .notification__text {
+      @include themed() {
+        color: t($text-secondary);
+        font-size: 0.9rem;
+      }
+    }
+  }
+}

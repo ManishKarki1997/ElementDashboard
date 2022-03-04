@@ -11,7 +11,7 @@
         </el-badge>
       </div>
 
-      <div class="header__item icon__button">
+      <div @click="openNotificationSidebar" class="header__item icon__button">
         <el-badge is-dot class="item">
           <i class="el-icon-bell"></i>
         </el-badge>
@@ -26,10 +26,10 @@
           <div class="user__image">
             <img src="@/assets/images/luffy clueless.jpg" alt="User Image" />
           </div>
-          <div class="user__details">
+          <!-- <div class="user__details">
             <h4>Monkey D. Luffy</h4>
             <p>Strawhat Pirates</p>
-          </div>
+          </div> -->
         </div>
 
         <el-dropdown-menu
@@ -54,8 +54,13 @@
 </template>
 
 <script>
+import { OPEN_NOTIFICATION_SIDEBAR } from "@/constants/event-names";
+
 export default {
   methods: {
+    openNotificationSidebar() {
+      this.$bus.emit(OPEN_NOTIFICATION_SIDEBAR);
+    },
     handleDropdownCommand(command) {
       if (command === "LOGOUT") {
         this.onClickLogout();

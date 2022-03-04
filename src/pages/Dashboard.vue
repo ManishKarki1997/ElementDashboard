@@ -1,6 +1,7 @@
 <template>
   <div class="dashboard-home">
     <Sidebar />
+    <NotificationDrawer />
     <div class="dashboard__body">
       <DashboardHeader />
       <main class="dashboard__body-content">
@@ -15,6 +16,8 @@ export default {
   components: {
     Sidebar: () => import("@/components/Dashboard/Sidebar"),
     DashboardHeader: () => import("@/components/Dashboard/DashboardHeader"),
+    NotificationDrawer: () =>
+      import("@/components/Dashboard/NotificationDrawer"),
   },
 };
 </script>
