@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       direction: "rtl",
-      isNotificationDrawerOpen: true,
+      isNotificationDrawerOpen: false,
       notifications: [],
     };
   },

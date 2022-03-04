@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import ElementUI from "element-ui";
+import locale from "element-ui/lib/locale/lang/en";
 import VueBus from "vue-bus";
 
 import App from "./App.vue";
@@ -10,7 +11,9 @@ import "element-ui/lib/theme-chalk/index.css";
 
 import router from "./router";
 
-Vue.use(ElementUI);
+Vue.use(ElementUI, {
+  locale,
+});
 Vue.use(VueRouter);
 Vue.use(VueBus);
 
