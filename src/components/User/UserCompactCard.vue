@@ -40,14 +40,20 @@
           class="has-bg has-shadow has-no-padding-block"
           slot="dropdown"
         >
-          <el-dropdown-item class="" icon="el-icon-user"
+          <el-dropdown-item
+            command="VIEW_QUICK_PROFILE"
+            class=""
+            icon="el-icon-user"
             >View Quick Profile</el-dropdown-item
           >
-          <el-dropdown-item class="" icon="el-icon-user"
+          <el-dropdown-item command="GOTO_PROFILE" class="" icon="el-icon-user"
             >Goto Profile</el-dropdown-item
           >
 
-          <el-dropdown-item class="" icon="el-icon-remove-outline"
+          <el-dropdown-item
+            command="BLOCK_USER"
+            class=""
+            icon="el-icon-remove-outline"
             >Block User</el-dropdown-item
           >
         </el-dropdown-menu>
@@ -64,9 +70,31 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      userDropdownCommands: {
+        VIEW_QUICK_PROFILE: "VIEW_QUICK_PROFILE",
+        GOTO_PROFILE: "GOTO_PROFILE",
+        BLOCK_USER: "BLOCK_USER",
+      },
+    };
+  },
   methods: {
     handleDropdownCommand(command) {
       console.log(command);
+      if (command === this.userDropdownCommands.BLOCK_USER) {
+        this.$confirm(`Do you really want to block this user?`, "Block User?", {
+          confirmButtonText: "Block",
+          cancelButtonText: "Cancel",
+          type: "error",
+          customClass: "dialog__danger",
+        }).then(() => {
+          this.$message({
+            message: "User Blocked Successfully",
+            type: "success",
+          });
+        });
+      }
     },
   },
 };

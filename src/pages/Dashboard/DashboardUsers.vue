@@ -28,10 +28,12 @@
 
       <div class="views__wrapper horizontal__center gap-12">
         <el-button
+          @click="selectActiveUsersTab('GRID')"
           class="icon__button bg__secondary"
           icon="el-icon-menu"
         ></el-button>
         <el-button
+          @click="selectActiveUsersTab('TABLE')"
           class="icon__button bg__secondary"
           icon="el-icon-s-operation"
         ></el-button>
@@ -40,11 +42,106 @@
 
     <div class="user__content__wrapper">
       <div class="user__grid__wrapper">
-        <UserCompactCard
-          v-for="(user, idx) in users"
-          :key="user.name + idx"
-          :user="user"
-        />
+        <template v-if="activeUsersTab === 'GRID'">
+          <UserCompactCard
+            v-for="(user, idx) in users"
+            :key="user.name + idx"
+            :user="user"
+          />
+        </template>
+
+        <template v-if="activeUsersTab === 'TABLE'">
+          <el-table :data="users" style="width: 100%">
+            <el-table-column prop="name" label="User" width="300">
+              <template slot-scope="scope">
+                <div class="horizontal__center gap-8">
+                  <el-avatar
+                    shape="square"
+                    size="large"
+                    :src="`https://avatars.dicebear.com/api/adventurer/${scope.row.name}.svg`"
+                  ></el-avatar>
+
+                  <h4>{{ scope.row.name }}</h4>
+                </div>
+              </template>
+            </el-table-column>
+
+            <el-table-column prop="role" label="Role">
+              <template slot-scope="scope">
+                <h5>{{ scope.row.role }}</h5>
+              </template>
+            </el-table-column>
+
+            <el-table-column prop="joinedDate" label="Joined Date">
+              <template slot-scope="scope">
+                <h5>{{ scope.row.joinedDate }}</h5>
+              </template>
+            </el-table-column>
+
+            <el-table-column prop="name" label="Name" width="180">
+              <template slot-scope="scope">
+                <el-rate
+                  v-model="scope.row.rating"
+                  disabled
+                  show-score
+                  text-color="#ff9900"
+                  score-template="{value}"
+                >
+                </el-rate>
+              </template>
+            </el-table-column>
+
+            <el-table-column align="right">
+              <template slot="header"> Actions </template>
+              <template slot-scope="scope">
+                <el-dropdown
+                  @command="handleDropdownCommand($event, scope.row)"
+                  trigger="click"
+                  placement="bottom-start"
+                >
+                  <el-button size="mini" type="primary">Action</el-button>
+
+                  <el-dropdown-menu
+                    class="has-shadow has-no-padding-block"
+                    slot="dropdown"
+                  >
+                    <el-dropdown-item
+                      command="VIEW_QUICK_PROFILE"
+                      class=""
+                      icon="el-icon-user"
+                      >View Quick Profile</el-dropdown-item
+                    >
+                    <el-dropdown-item
+                      command="GOTO_PROFILE"
+                      class=""
+                      icon="el-icon-user"
+                      >Goto Profile</el-dropdown-item
+                    >
+
+                    <el-dropdown-item
+                      command="BLOCK_USER"
+                      class=""
+                      icon="el-icon-remove-outline"
+                      >Block User</el-dropdown-item
+                    >
+                  </el-dropdown-menu>
+                </el-dropdown>
+
+                <!-- <el-button
+                  size="mini"
+                  @click="handleEdit(scope.$index, scope.row)"
+                  >Edit</el-button
+                >
+                <el-button
+                  size="mini"
+                  type="danger"
+                  @click="handleDelete(scope.$index, scope.row)"
+                  >Delete</el-button
+                > -->
+              </template>
+            </el-table-column>
+          </el-table>
+        </template>
       </div>
     </div>
   </div>
@@ -60,7 +157,7 @@ export default {
       users: [
         {
           verified: Math.random() < 0.5,
-          rating: Math.floor(Math.random() * 3 + 1),
+          rating: parseInt((Math.random() * 3 + 1).toFixed(2)),
           joinedDate: Math.round(Math.random() * 9 + 2) + " months ago",
           name: "Victoria Wilkiins",
           email: "victoriawilkins@gmail.com",
@@ -68,7 +165,7 @@ export default {
         },
         {
           verified: Math.random() < 0.5,
-          rating: Math.floor(Math.random() * 3 + 1),
+          rating: parseInt((Math.random() * 3 + 1).toFixed(2)),
           joinedDate: Math.round(Math.random() * 9 + 2) + " months ago",
           name: "Hannah Par",
           email: "hannahpar@gmail.com",
@@ -76,7 +173,7 @@ export default {
         },
         {
           verified: Math.random() < 0.5,
-          rating: Math.floor(Math.random() * 3 + 1),
+          rating: parseInt((Math.random() * 3 + 1).toFixed(2)),
           joinedDate: Math.round(Math.random() * 9 + 2) + " months ago",
           name: "Adrian	Peake",
           email: "adrianpeake@gmail.com",
@@ -84,7 +181,7 @@ export default {
         },
         {
           verified: Math.random() < 0.5,
-          rating: Math.floor(Math.random() * 3 + 1),
+          rating: parseInt((Math.random() * 3 + 1).toFixed(2)),
           joinedDate: Math.round(Math.random() * 9 + 2) + " months ago",
           name: "Stephen Churchill",
           email: "stephenchurhcill@gmail.com",
@@ -92,7 +189,7 @@ export default {
         },
         {
           verified: Math.random() < 0.5,
-          rating: Math.floor(Math.random() * 3 + 1),
+          rating: parseInt((Math.random() * 3 + 1).toFixed(2)),
           joinedDate: Math.round(Math.random() * 9 + 2) + " months ago",
           name: "Andrea Duncan",
           email: "andreaduncan@gmail.com",
@@ -100,7 +197,7 @@ export default {
         },
         {
           verified: Math.random() < 0.5,
-          rating: Math.floor(Math.random() * 3 + 1),
+          rating: parseInt((Math.random() * 3 + 1).toFixed(2)),
           joinedDate: Math.round(Math.random() * 9 + 2) + " months ago",
           name: "Edward Cameron",
           email: "edwardcameron@gmail.com",
@@ -108,7 +205,7 @@ export default {
         },
         {
           verified: Math.random() < 0.5,
-          rating: Math.floor(Math.random() * 3 + 1),
+          rating: parseInt((Math.random() * 3 + 1).toFixed(2)),
           joinedDate: Math.round(Math.random() * 9 + 2) + " months ago",
           name: "Carl Bell",
           email: "carlbell@gmail.com",
@@ -116,7 +213,7 @@ export default {
         },
         {
           verified: Math.random() < 0.5,
-          rating: Math.floor(Math.random() * 3 + 1),
+          rating: parseInt((Math.random() * 3 + 1).toFixed(2)),
           joinedDate: Math.round(Math.random() * 9 + 2) + " months ago",
           name: "Pippa Reid",
           email: "pippareid@gmail.com",
@@ -124,7 +221,7 @@ export default {
         },
         {
           verified: Math.random() < 0.5,
-          rating: Math.floor(Math.random() * 3 + 1),
+          rating: parseInt((Math.random() * 3 + 1).toFixed(2)),
           joinedDate: Math.round(Math.random() * 9 + 2) + " months ago",
           name: "Wendy Wright",
           email: "wendyright@gmail.com",
@@ -167,9 +264,35 @@ export default {
         verificationStatus: "",
         joinedDate: "",
       },
+      // activeUsersTab: "GRID",
+      activeUsersTab: "TABLE",
+      tableDropdownCommands: {
+        VIEW_QUICK_PROFILE: "VIEW_QUICK_PROFILE",
+        GOTO_PROFILE: "GOTO_PROFILE",
+        BLOCK_USER: "BLOCK_USER",
+      },
     };
   },
   methods: {
+    selectActiveUsersTab(selected) {
+      this.activeUsersTab = selected;
+    },
+    handleDropdownCommand(command, user) {
+      user;
+      if (command === this.tableDropdownCommands.BLOCK_USER) {
+        this.$confirm(`Do you really want to block this user?`, "Block User?", {
+          confirmButtonText: "Block",
+          cancelButtonText: "Cancel",
+          type: "error",
+          customClass: "dialog__danger",
+        }).then(() => {
+          this.$message({
+            message: "User Blocked Successfully",
+            type: "success",
+          });
+        });
+      }
+    },
     onSubmit() {
       console.log("submit!");
     },
