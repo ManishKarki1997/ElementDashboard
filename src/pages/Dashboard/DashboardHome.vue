@@ -182,16 +182,22 @@ export default {
 
   .events__wrapper {
     grid-column: span 5;
-
     padding: 8px;
     width: 100%;
+
     @include themed() {
       background-color: t($bg-secondary);
     }
+
     @include radius($normal);
 
     @media (max-width: 1400px) {
       grid-column: span 12;
+    }
+
+    .grid__title {
+      padding: 4px 12px;
+      margin-bottom: 1rem;
     }
 
     .dashboard__events {
@@ -199,6 +205,7 @@ export default {
         display: flex;
         gap: 1rem;
         margin-bottom: 1.5rem;
+        padding: 8px;
         cursor: pointer;
 
         &:hover {

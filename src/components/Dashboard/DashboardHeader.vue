@@ -25,7 +25,12 @@
       >
         <div class="header__item user__profile">
           <div class="user__image">
-            <img src="@/assets/images/luffy clueless.jpg" alt="User Image" />
+            <el-avatar
+              shape="square"
+              size="large"
+              :src="require('@/assets/images/luffy clueless.jpg')"
+            ></el-avatar>
+            <!-- <img src="@/assets/images/luffy clueless.jpg" alt="User Image" /> -->
           </div>
           <!-- <div class="user__details">
             <h4>Monkey D. Luffy</h4>

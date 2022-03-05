@@ -7,6 +7,12 @@
     background-color: t($bg-icon-button);
   }
 
+  &.bg__secondary {
+    @include themed() {
+      background-color: t($bg-secondary);
+    }
+  }
+
   &:hover {
     @include themed() {
       background-color: t($bg-icon-button-hover);

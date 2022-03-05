@@ -1,10 +1,12 @@
 @import "./base/reset.scss";
 @import "./base/base.scss";
 @import "./base/typography.scss";
+@import "./base/typography-helpers.scss";
 
 @import "./abstracts/theme-enums";
 @import "./abstracts/mixins";
 @import "./abstracts/functions";
+@import "./abstracts/utilities";
 
 // components
 @import "./components/index.scss";

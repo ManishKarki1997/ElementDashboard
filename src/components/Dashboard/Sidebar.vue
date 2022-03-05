@@ -6,7 +6,7 @@
     @close="handleClose"
     :collapse="isCollapsed"
   >
-    <el-menu-item index="1" class="brand__info__item">
+    <el-menu-item class="brand__info__item">
       <div class="brand__info">
         <img
           class="brand-logo"
@@ -14,7 +14,7 @@
           alt="Brand Logo"
         />
         <div class="info">
-          <h4 class="brand__title">Luffy</h4>
+          <h1 class="brand__title">Luffy</h1>
           <p class="brand__subtitle">Strawhat Pirates</p>
         </div>
       </div>

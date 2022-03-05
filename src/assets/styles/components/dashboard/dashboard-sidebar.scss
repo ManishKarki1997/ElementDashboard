@@ -48,6 +48,12 @@
   .brand__info {
     padding: 1rem 0 !important;
 
+    .brand__title {
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-bottom: -4px;
+    }
+
     .info {
       display: block;
       & > * {

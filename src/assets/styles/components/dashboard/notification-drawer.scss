@@ -17,6 +17,8 @@
   @include radius($normal);
 
   &:hover {
+    @include box-shadow($shadow-lg);
+
     @include themed() {
       // background-color: t($bg-primary);
       background-color: colorShade(brandColor, base);

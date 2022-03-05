@@ -1,0 +1,21 @@
+.body__secondary {
+  @include themed() {
+    color: t($text-secondary);
+  }
+  font-size: 1rem;
+}
+
+.body {
+  font-size: 1rem;
+}
+
+.small {
+  font-size: 0.9rem;
+}
+
+.small__secondary {
+  font-size: 0.9rem;
+  @include themed() {
+    color: t($text-secondary);
+  }
+}
