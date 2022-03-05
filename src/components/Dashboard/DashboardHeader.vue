@@ -21,7 +21,7 @@
       <el-dropdown
         @command="handleDropdownCommand"
         trigger="click"
-        placement="bottom-start"
+        placement="bottom-end"
       >
         <div class="header__item user__profile">
           <div class="user__image">

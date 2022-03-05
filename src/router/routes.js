@@ -39,6 +39,17 @@ export default [
           ),
       },
       {
+        path: "/app/products",
+        name: "Dashboard Products",
+        meta: {
+          name: "Products",
+        },
+        component: () =>
+          import(
+            /* webpackChunkName: "Dashboard Products" */ "../pages/Dashboard/DashboardProducts"
+          ),
+      },
+      {
         path: "/app/settings",
         name: "Dashboard Settings",
         meta: {

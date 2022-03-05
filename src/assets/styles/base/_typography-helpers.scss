@@ -1,3 +1,14 @@
+.text__primary {
+  @include themed() {
+    color: t($text-primary);
+  }
+}
+.text__secondary {
+  @include themed() {
+    color: t($text-secondary);
+  }
+}
+
 .body__secondary {
   @include themed() {
     color: t($text-secondary);
@@ -17,5 +28,13 @@
   font-size: 0.9rem;
   @include themed() {
     color: t($text-secondary);
+  }
+}
+
+.bullet {
+  font-size: 1rem;
+  font-weight: 500;
+  @include themed() {
+    color: t($text-primary);
   }
 }

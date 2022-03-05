@@ -21,59 +21,23 @@
     </el-menu-item>
 
     <router-link
-      to="/app"
+      v-for="sidebarLink in sidebarLinks"
+      :key="sidebarLink.name"
+      :to="sidebarLink.path"
       custom
       v-slot="{ href, navigate, isActive, isExactActive }"
     >
       <el-menu-item
         :class="[
-          isActive && 'router-link-active',
+          isActive && 'router-link-active ',
           isExactActive && 'router-link-exact-active is-active',
         ]"
         active-class="is-active"
         :href="href"
         @click="navigate"
       >
-        <i class="el-icon-menu"></i>
-        <span>Dashboard</span>
-      </el-menu-item>
-    </router-link>
-
-    <router-link
-      to="/app/users"
-      custom
-      v-slot="{ href, navigate, isActive, isExactActive }"
-    >
-      <el-menu-item
-        :class="[
-          isActive && 'router-link-active is-active',
-          isExactActive && 'router-link-exact-active',
-        ]"
-        active-class="is-active"
-        :href="href"
-        @click="navigate"
-      >
-        <i class="el-icon-user"></i>
-        <span>Users</span>
-      </el-menu-item>
-    </router-link>
-
-    <router-link
-      to="/app/settings"
-      custom
-      v-slot="{ href, navigate, isActive, isExactActive }"
-    >
-      <el-menu-item
-        :class="[
-          isActive && 'router-link-active is-active',
-          isExactActive && 'router-link-exact-active',
-        ]"
-        active-class="is-active"
-        :href="href"
-        @click="navigate"
-      >
-        <i class="el-icon-setting"></i>
-        <span>Settings</span>
+        <i :class="sidebarLink.iconName"></i>
+        <span>{{ sidebarLink.name }}</span>
       </el-menu-item>
     </router-link>
 
@@ -97,6 +61,28 @@ export default {
   data() {
     return {
       isCollapsed: false,
+      sidebarLinks: [
+        {
+          name: "Dashboard",
+          iconName: "el-icon-menu",
+          path: "/app",
+        },
+        {
+          name: "Products",
+          iconName: "el-icon-copy-document",
+          path: "/app/products",
+        },
+        {
+          name: "Users",
+          iconName: "el-icon-user",
+          path: "/app/users",
+        },
+        {
+          name: "Settings",
+          iconName: "el-icon-setting",
+          path: "/app/settings",
+        },
+      ],
     };
   },
   methods: {

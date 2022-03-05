@@ -1,6 +1,6 @@
 .el-dropdown-menu__item.danger:focus,
 .el-dropdown-menu__item.danger:hover {
-  color: #f56c6c;
+  color: $danger-color;
 }
 
 .el-dropdown-menu.has-shadow {
@@ -10,6 +10,23 @@
   padding-block: 0;
 }
 
+.c__icon__dropdown__item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  &.isInCart {
+    color: $danger-color;
+    // @include themed() {
+    //   color: t($brand-color) !important;
+    // }
+  }
+}
 .el-dropdown-menu.has-bg {
   min-width: 150px !important;
 

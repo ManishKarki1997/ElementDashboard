@@ -26,7 +26,7 @@
         </el-form>
       </div>
 
-      <div class="views__wrapper horizontal__center gap-12">
+      <div class="views__wrapper horizontal__center">
         <el-button
           @click="selectActiveUsersTab('GRID')"
           class="icon__button bg__secondary"
@@ -72,13 +72,25 @@
               </template>
             </el-table-column>
 
+            <el-table-column prop="verified" label="Verification">
+              <template slot-scope="scope">
+                <el-tag
+                  size="small"
+                  :type="scope.row.verified ? 'primary' : 'danger'"
+                  effect="dark"
+                >
+                  {{ scope.row.verified ? "Verified" : "Unverified" }}
+                </el-tag>
+              </template>
+            </el-table-column>
+
             <el-table-column prop="joinedDate" label="Joined Date">
               <template slot-scope="scope">
                 <h5>{{ scope.row.joinedDate }}</h5>
               </template>
             </el-table-column>
 
-            <el-table-column prop="name" label="Name" width="180">
+            <el-table-column prop="rate" label="Ratings" width="180">
               <template slot-scope="scope">
                 <el-rate
                   v-model="scope.row.rating"
@@ -97,7 +109,7 @@
                 <el-dropdown
                   @command="handleDropdownCommand($event, scope.row)"
                   trigger="click"
-                  placement="bottom-start"
+                  placement="bottom-end"
                 >
                   <el-button size="mini" type="primary">Action</el-button>
 
@@ -126,18 +138,6 @@
                     >
                   </el-dropdown-menu>
                 </el-dropdown>
-
-                <!-- <el-button
-                  size="mini"
-                  @click="handleEdit(scope.$index, scope.row)"
-                  >Edit</el-button
-                >
-                <el-button
-                  size="mini"
-                  type="danger"
-                  @click="handleDelete(scope.$index, scope.row)"
-                  >Delete</el-button
-                > -->
               </template>
             </el-table-column>
           </el-table>
@@ -306,6 +306,13 @@ export default {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+
+  @include themed() {
+    background-color: t($bg-secondary);
+    padding: 0 1rem;
+  }
+  @include radius();
+  @include box-shadow();
 
   @include spacing($spacing-2, "margin-bottom");
 }

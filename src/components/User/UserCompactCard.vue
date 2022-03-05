@@ -32,7 +32,7 @@
       <el-dropdown
         @command="handleDropdownCommand"
         trigger="click"
-        placement="bottom-start"
+        placement="bottom-end"
       >
         <i class="el-icon-more cursor_pointer"></i>
 
@@ -99,24 +99,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-.user__compact__card {
-  display: flex;
-  justify-content: space-between;
-  max-width: 400px;
-  padding: 1rem;
-  width: 100%;
-
-  @include radius($normal);
-  @include themed() {
-    background-color: t($bg-secondary);
-  }
-
-  .user__left {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-}
-</style>

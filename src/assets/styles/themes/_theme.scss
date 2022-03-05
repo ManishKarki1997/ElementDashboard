@@ -36,13 +36,28 @@ $palettes: (
     darker: #103566,
     //60%
     dark: #103566,
-    //60%
+    //40%
     base: #2884ff,
     light: #539dff,
     //20% light
     lighter: #7eb5ff,
     //40% light
     lightest: #bfdaff,
+    //70% light
+  ),
+  blackColor: (
+    darkest: #0a0a0a,
+    //80%
+    darker: #141414,
+    //60%
+    dark: #1f1f1f,
+    //40%
+    base: #333333,
+    light: #5c5c5c,
+    //20% light
+    lighter: #858585,
+    //40% light
+    lightest: #c2c2c2,
     //70% light
   ),
 );
@@ -63,10 +78,10 @@ $normal: 5px;
 $large: 8px;
 
 // spacing
-$spacing-1p: 1px;
-$spacing-2p: 2px;
-$spacing-4p: 4px;
-$spacing-8p: 8px;
+$spacing-1px: 1px;
+$spacing-2px: 2px;
+$spacing-4px: 4px;
+$spacing-8px: 8px;
 $spacing-1: 1rem;
 $spacing-2: 2rem;
 $spacing-3: 3rem;

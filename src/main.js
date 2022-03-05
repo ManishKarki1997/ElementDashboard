@@ -4,6 +4,15 @@ import ElementUI from "element-ui";
 import locale from "element-ui/lib/locale/lang/en";
 import VueBus from "vue-bus";
 
+import appIcons from "./imports/fontawesome";
+
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+
+appIcons.forEach((icon) => library.add(icon));
+
+Vue.component("font-awesome-icon", FontAwesomeIcon);
+
 import App from "./App.vue";
 import "./assets/styles/main.scss";
 
