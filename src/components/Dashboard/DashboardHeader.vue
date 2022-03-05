@@ -43,6 +43,7 @@
           slot="dropdown"
         >
           <el-dropdown-item
+            command="VISIT_PROFILE"
             class="user_profile_dropdown_item"
             icon="el-icon-user"
             >Profile</el-dropdown-item
@@ -75,6 +76,8 @@ export default {
     handleDropdownCommand(command) {
       if (command === "LOGOUT") {
         this.onClickLogout();
+      } else if (command === "VISIT_PROFILE") {
+        this.$router.push("/app/profile/starscream");
       }
     },
     onClickLogout() {

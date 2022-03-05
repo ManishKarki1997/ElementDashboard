@@ -23,3 +23,15 @@
     }
   }
 }
+
+.custom__btn__with__icon span {
+  display: flex;
+  align-items: center;
+  gap: $spacing-8px;
+}
+
+.custom_dropdown_item_with_icon {
+  display: flex;
+  align-items: center;
+  gap: $spacing-8px;
+}

@@ -60,6 +60,63 @@ export default [
             /* webpackChunkName: "Dashboard Settings" */ "../pages/Dashboard/DashboardSettings"
           ),
       },
+      {
+        path: "/app/profile/:userId",
+        name: "User Profile",
+        meta: {
+          name: "Profile",
+        },
+        component: () =>
+          import(
+            /* webpackChunkName: "User Profile" */ "../pages/Dashboard/Profile/Profile"
+          ),
+        children: [
+          {
+            path: "/app/profile/:userId",
+            name: "User Profile Details",
+            meta: {
+              name: "Basic Info",
+            },
+            component: () =>
+              import(
+                /* webpackChunkName: "User Profile" */ "../pages/Dashboard/Profile/BasicInfo"
+              ),
+          },
+          {
+            path: "/app/profile/:userId/listed-products",
+            name: "User Profile Listed Products",
+            meta: {
+              name: "Listed Products",
+            },
+            component: () =>
+              import(
+                /* webpackChunkName: "User Profile Listed Products" */ "../pages/Dashboard/Profile/ListedProducts"
+              ),
+          },
+          {
+            path: "/app/profile/:userId/reviews",
+            name: "User Profile Reviews",
+            meta: {
+              name: "Reviews",
+            },
+            component: () =>
+              import(
+                /* webpackChunkName: "User Profile Reviews" */ "../pages/Dashboard/Profile/Reviews"
+              ),
+          },
+          {
+            path: "/app/profile/:userId/notifications",
+            name: "User Profile Notifications",
+            meta: {
+              name: "Notifications",
+            },
+            component: () =>
+              import(
+                /* webpackChunkName: "User Profile Notifications" */ "../pages/Dashboard/Profile/Notifications"
+              ),
+          },
+        ],
+      },
     ],
   },
   {

@@ -7,7 +7,7 @@
     :collapse="isCollapsed"
   >
     <el-menu-item class="brand__info__item">
-      <div class="brand__info">
+      <div @click="$router.push('/app/profile/starscream')" class="brand__info">
         <img
           class="brand-logo"
           src="@/assets/images/luffy chibi.png"

@@ -42,7 +42,7 @@
 
           <el-table-column prop="price" label="Price">
             <template slot-scope="scope">
-              <h5>{{ scope.row.price }}</h5>
+              <h5>${{ scope.row.price }}</h5>
             </template>
           </el-table-column>
 

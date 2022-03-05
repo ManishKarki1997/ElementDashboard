@@ -7,6 +7,14 @@ import {
   faUser as fasUser,
   faSquare as fasSquare,
   faRedoAlt,
+  faInfoCircle as fasInfoCircle,
+  faThLarge,
+  faComments as fasComments,
+  faPen,
+  faPaperPlane,
+  faBan,
+  faRocket,
+  faDollarSign,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -15,6 +23,8 @@ import {
   faHeart,
   faUser,
   faSquare,
+  faComments,
+  faBell,
 } from "@fortawesome/free-regular-svg-icons";
 
 export default [
@@ -31,4 +41,14 @@ export default [
   faSquare,
   fasSquare,
   faRedoAlt,
+  faThLarge,
+  fasInfoCircle,
+  faComments,
+  fasComments,
+  faBell,
+  faPen,
+  faPaperPlane,
+  faBan,
+  faRocket,
+  faDollarSign,
 ];
