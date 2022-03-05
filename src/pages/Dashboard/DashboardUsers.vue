@@ -51,96 +51,107 @@
         </template>
 
         <template v-if="activeUsersTab === 'TABLE'">
-          <el-table :data="users" style="width: 100%">
-            <el-table-column prop="name" label="User" width="300">
-              <template slot-scope="scope">
-                <div class="horizontal__center gap-8">
-                  <el-avatar
-                    shape="square"
-                    size="large"
-                    :src="`https://avatars.dicebear.com/api/adventurer/${scope.row.name}.svg`"
-                  ></el-avatar>
+          <div class="table__wrapper">
+            <el-table :data="paginatedUsersData" style="width: 100%">
+              <el-table-column prop="name" label="User" width="300">
+                <template slot-scope="scope">
+                  <div class="horizontal__center gap-8">
+                    <el-avatar
+                      shape="square"
+                      size="large"
+                      :src="`https://avatars.dicebear.com/api/adventurer/${scope.row.name}.svg`"
+                    ></el-avatar>
 
-                  <h4>{{ scope.row.name }}</h4>
-                </div>
-              </template>
-            </el-table-column>
+                    <h4>{{ scope.row.name }}</h4>
+                  </div>
+                </template>
+              </el-table-column>
 
-            <el-table-column prop="role" label="Role">
-              <template slot-scope="scope">
-                <h5>{{ scope.row.role }}</h5>
-              </template>
-            </el-table-column>
+              <el-table-column prop="role" label="Role">
+                <template slot-scope="scope">
+                  <h5>{{ scope.row.role }}</h5>
+                </template>
+              </el-table-column>
 
-            <el-table-column prop="verified" label="Verification">
-              <template slot-scope="scope">
-                <el-tag
-                  size="small"
-                  :type="scope.row.verified ? 'primary' : 'danger'"
-                  effect="dark"
-                >
-                  {{ scope.row.verified ? "Verified" : "Unverified" }}
-                </el-tag>
-              </template>
-            </el-table-column>
-
-            <el-table-column prop="joinedDate" label="Joined Date">
-              <template slot-scope="scope">
-                <h5>{{ scope.row.joinedDate }}</h5>
-              </template>
-            </el-table-column>
-
-            <el-table-column prop="rate" label="Ratings" width="180">
-              <template slot-scope="scope">
-                <el-rate
-                  v-model="scope.row.rating"
-                  disabled
-                  show-score
-                  text-color="#ff9900"
-                  score-template="{value}"
-                >
-                </el-rate>
-              </template>
-            </el-table-column>
-
-            <el-table-column align="right">
-              <template slot="header"> Actions </template>
-              <template slot-scope="scope">
-                <el-dropdown
-                  @command="handleDropdownCommand($event, scope.row)"
-                  trigger="click"
-                  placement="bottom-end"
-                >
-                  <el-button size="mini" type="primary">Action</el-button>
-
-                  <el-dropdown-menu
-                    class="has-shadow has-no-padding-block"
-                    slot="dropdown"
+              <el-table-column prop="verified" label="Verification">
+                <template slot-scope="scope">
+                  <el-tag
+                    size="small"
+                    :type="scope.row.verified ? 'primary' : 'danger'"
+                    effect="dark"
                   >
-                    <el-dropdown-item
-                      command="VIEW_QUICK_PROFILE"
-                      class=""
-                      icon="el-icon-user"
-                      >View Quick Profile</el-dropdown-item
-                    >
-                    <el-dropdown-item
-                      command="GOTO_PROFILE"
-                      class=""
-                      icon="el-icon-user"
-                      >Goto Profile</el-dropdown-item
-                    >
+                    {{ scope.row.verified ? "Verified" : "Unverified" }}
+                  </el-tag>
+                </template>
+              </el-table-column>
 
-                    <el-dropdown-item
-                      command="BLOCK_USER"
-                      class=""
-                      icon="el-icon-remove-outline"
-                      >Block User</el-dropdown-item
+              <el-table-column prop="joinedDate" label="Joined Date">
+                <template slot-scope="scope">
+                  <h5>{{ scope.row.joinedDate }}</h5>
+                </template>
+              </el-table-column>
+
+              <el-table-column prop="rate" label="Ratings" width="180">
+                <template slot-scope="scope">
+                  <el-rate
+                    v-model="scope.row.rating"
+                    disabled
+                    show-score
+                    text-color="#ff9900"
+                    score-template="{value}"
+                  >
+                  </el-rate>
+                </template>
+              </el-table-column>
+
+              <el-table-column align="right">
+                <template slot="header"> Actions </template>
+                <template slot-scope="scope">
+                  <el-dropdown
+                    @command="handleDropdownCommand($event, scope.row)"
+                    trigger="click"
+                    placement="bottom-end"
+                  >
+                    <el-button size="mini" type="primary">Action</el-button>
+
+                    <el-dropdown-menu
+                      class="has-shadow has-no-padding-block"
+                      slot="dropdown"
                     >
-                  </el-dropdown-menu>
-                </el-dropdown>
-              </template>
-            </el-table-column>
-          </el-table>
+                      <el-dropdown-item
+                        command="VIEW_QUICK_PROFILE"
+                        class=""
+                        icon="el-icon-user"
+                        >View Quick Profile</el-dropdown-item
+                      >
+                      <el-dropdown-item
+                        command="GOTO_PROFILE"
+                        class=""
+                        icon="el-icon-user"
+                        >Goto Profile</el-dropdown-item
+                      >
+
+                      <el-dropdown-item
+                        command="BLOCK_USER"
+                        class=""
+                        icon="el-icon-remove-outline"
+                        >Block User</el-dropdown-item
+                      >
+                    </el-dropdown-menu>
+                  </el-dropdown>
+                </template>
+              </el-table-column>
+            </el-table>
+
+            <el-pagination
+              class="pagination"
+              @current-change="onTablePageChange"
+              background
+              layout="prev, pager, next"
+              :total="users.length"
+            >
+            </el-pagination>
+          </div>
         </template>
       </div>
     </div>
@@ -154,80 +165,7 @@ export default {
   },
   data() {
     return {
-      users: [
-        {
-          verified: Math.random() < 0.5,
-          rating: parseInt((Math.random() * 3 + 1).toFixed(2)),
-          joinedDate: Math.round(Math.random() * 9 + 2) + " months ago",
-          name: "Victoria Wilkiins",
-          email: "victoriawilkins@gmail.com",
-          role: "CEO",
-        },
-        {
-          verified: Math.random() < 0.5,
-          rating: parseInt((Math.random() * 3 + 1).toFixed(2)),
-          joinedDate: Math.round(Math.random() * 9 + 2) + " months ago",
-          name: "Hannah Par",
-          email: "hannahpar@gmail.com",
-          role: "Project Manager",
-        },
-        {
-          verified: Math.random() < 0.5,
-          rating: parseInt((Math.random() * 3 + 1).toFixed(2)),
-          joinedDate: Math.round(Math.random() * 9 + 2) + " months ago",
-          name: "Adrian	Peake",
-          email: "adrianpeake@gmail.com",
-          role: "Frontend Developer",
-        },
-        {
-          verified: Math.random() < 0.5,
-          rating: parseInt((Math.random() * 3 + 1).toFixed(2)),
-          joinedDate: Math.round(Math.random() * 9 + 2) + " months ago",
-          name: "Stephen Churchill",
-          email: "stephenchurhcill@gmail.com",
-          role: "Graphics Designer",
-        },
-        {
-          verified: Math.random() < 0.5,
-          rating: parseInt((Math.random() * 3 + 1).toFixed(2)),
-          joinedDate: Math.round(Math.random() * 9 + 2) + " months ago",
-          name: "Andrea Duncan",
-          email: "andreaduncan@gmail.com",
-          role: "Backend Developer",
-        },
-        {
-          verified: Math.random() < 0.5,
-          rating: parseInt((Math.random() * 3 + 1).toFixed(2)),
-          joinedDate: Math.round(Math.random() * 9 + 2) + " months ago",
-          name: "Edward Cameron",
-          email: "edwardcameron@gmail.com",
-          role: "Backend Developer",
-        },
-        {
-          verified: Math.random() < 0.5,
-          rating: parseInt((Math.random() * 3 + 1).toFixed(2)),
-          joinedDate: Math.round(Math.random() * 9 + 2) + " months ago",
-          name: "Carl Bell",
-          email: "carlbell@gmail.com",
-          role: "Frontend Developer",
-        },
-        {
-          verified: Math.random() < 0.5,
-          rating: parseInt((Math.random() * 3 + 1).toFixed(2)),
-          joinedDate: Math.round(Math.random() * 9 + 2) + " months ago",
-          name: "Pippa Reid",
-          email: "pippareid@gmail.com",
-          role: "Marketing Manager",
-        },
-        {
-          verified: Math.random() < 0.5,
-          rating: parseInt((Math.random() * 3 + 1).toFixed(2)),
-          joinedDate: Math.round(Math.random() * 9 + 2) + " months ago",
-          name: "Wendy Wright",
-          email: "wendyright@gmail.com",
-          role: "Hiring Manager",
-        },
-      ],
+      users: [],
       filters: [
         {
           formName: "verificationStatus",
@@ -264,16 +202,34 @@ export default {
         verificationStatus: "",
         joinedDate: "",
       },
-      // activeUsersTab: "GRID",
       activeUsersTab: "TABLE",
       tableDropdownCommands: {
         VIEW_QUICK_PROFILE: "VIEW_QUICK_PROFILE",
         GOTO_PROFILE: "GOTO_PROFILE",
         BLOCK_USER: "BLOCK_USER",
       },
+      usersTablePaginationInfo: {
+        activeTablePage: 1,
+        pageSize: 10,
+      },
     };
   },
+  computed: {
+    paginatedUsersData() {
+      return this.users.slice(
+        this.usersTablePaginationInfo.pageSize *
+          this.usersTablePaginationInfo.activeTablePage -
+          this.usersTablePaginationInfo.pageSize,
+
+        this.usersTablePaginationInfo.pageSize *
+          this.usersTablePaginationInfo.activeTablePage
+      );
+    },
+  },
   methods: {
+    onTablePageChange(page) {
+      this.usersTablePaginationInfo.activeTablePage = page;
+    },
     selectActiveUsersTab(selected) {
       this.activeUsersTab = selected;
     },
@@ -297,10 +253,25 @@ export default {
       console.log("submit!");
     },
   },
+  mounted() {
+    Array.from(Array(20).keys()).forEach((idx) => {
+      this.users.push({
+        verified: Math.random() < 0.5,
+        rating: parseInt((Math.random() * 3 + 1).toFixed(2)),
+        joinedDate: Math.round(Math.random() * 9 + 2) + " months ago",
+        name: "Victoria Wilkiins " + idx,
+        email: "victoriawilkins@gmail.com",
+        role: "CEO",
+      });
+    });
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+.pagination {
+  @include spacing($spacing-2, "margin-top");
+}
 .filters__header {
   display: flex;
   justify-content: space-between;

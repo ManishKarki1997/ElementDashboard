@@ -1,3 +1,10 @@
+.dashboard__sidebar {
+  position: sticky !important;
+  height: 100vh;
+  left: 0;
+  top: 0;
+}
+
 .dashboard__sidebar .el-menu-item:not(.brand__info__item) {
   .el-tooltip {
     display: flex !important;

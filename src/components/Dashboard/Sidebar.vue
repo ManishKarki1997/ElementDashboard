@@ -15,7 +15,7 @@
         />
         <div class="info">
           <h1 class="brand__title">Luffy</h1>
-          <p class="brand__subtitle">Strawhat Pirates</p>
+          <p class="brand__subtitle">Dashboard Template</p>
         </div>
       </div>
     </el-menu-item>
