@@ -15,6 +15,7 @@ import {
   faBan,
   faRocket,
   faDollarSign,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -51,4 +52,5 @@ export default [
   faBan,
   faRocket,
   faDollarSign,
+  faPlus,
 ];
