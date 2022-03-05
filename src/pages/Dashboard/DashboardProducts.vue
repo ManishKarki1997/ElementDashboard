@@ -10,9 +10,11 @@
     <template v-if="activeViewTab === 'GRID'">
       <div class="products__grid">
         <ProductCard
-          v-for="product in products"
+          v-for="(product, idx) in products"
           :key="product.id"
           :product="product"
+          :idx="idx"
+          :disableAnimation="false"
         />
       </div>
       <LoadMoreButton

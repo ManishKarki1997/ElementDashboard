@@ -47,6 +47,8 @@
             v-for="(user, idx) in users"
             :key="user.name + idx"
             :user="user"
+            :idx="idx"
+            :disableAnimation="false"
           />
         </div>
 

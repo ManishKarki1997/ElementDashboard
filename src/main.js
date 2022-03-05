@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import ElementUI from "element-ui";
 import locale from "element-ui/lib/locale/lang/en";
 import VueBus from "vue-bus";
+import VAnimateCss from "v-animate-css";
 
 import appIcons from "./imports/fontawesome";
 
@@ -12,6 +13,8 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 appIcons.forEach((icon) => library.add(icon));
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
+
+Vue.use(VAnimateCss);
 
 import App from "./App.vue";
 import "./assets/styles/main.scss";

@@ -1,5 +1,9 @@
 <template>
-  <div :class="{ isInWishlist }" class="product__card">
+  <div
+    v-animate-css="animationObj"
+    :class="{ isInWishlist }"
+    class="product__card"
+  >
     <div class="product__backdrop">
       <img :src="product.productImage" alt="Product Image" />
       <div class="overlay"></div>
@@ -86,9 +90,26 @@
 <script>
 export default {
   props: {
+    idx: {
+      type: Number,
+      default: 0,
+    },
     product: {
       type: Object,
       required: true,
+    },
+    disableAnimation: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  computed: {
+    animationObj() {
+      if (this.disableAnimation) {
+        return { classes: "" };
+      } else {
+        return { classes: "fadeInUp", delay: this.idx * 50, duration: 700 };
+      }
     },
   },
   data() {

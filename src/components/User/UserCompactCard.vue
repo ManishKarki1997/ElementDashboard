@@ -1,5 +1,5 @@
 <template>
-  <div class="user__compact__card">
+  <div v-animate-css="animationObj" class="user__compact__card">
     <div class="user__left">
       <div class="user__image">
         <el-tooltip
@@ -65,9 +65,17 @@
 <script>
 export default {
   props: {
+    idx: {
+      type: Number,
+      default: 0,
+    },
     user: {
       type: Object,
       required: true,
+    },
+    disableAnimation: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {
@@ -78,6 +86,15 @@ export default {
         BLOCK_USER: "BLOCK_USER",
       },
     };
+  },
+  computed: {
+    animationObj() {
+      if (this.disableAnimation) {
+        return { classes: "" };
+      } else {
+        return { classes: "fadeInUp", delay: this.idx * 50, duration: 700 };
+      }
+    },
   },
   methods: {
     handleDropdownCommand(command) {
