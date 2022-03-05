@@ -3,7 +3,7 @@
     <div class="profile__header">
       <div class="header__left">
         <el-avatar
-          shape="circle"
+          shape="square"
           :size="80"
           fit="cover"
           src="https://images4.alphacoders.com/165/thumb-1920-165008.jpg"
@@ -26,6 +26,7 @@
           </el-button>
 
           <el-button
+            @click="onClickSendMessage"
             type="success"
             size="small"
             class="custom__btn__with__icon"
@@ -181,6 +182,8 @@
 </template>
 
 <script>
+import { OPEN_SEND_MESSAGE_MODAL } from "@/constants/event-names";
+
 export default {
   data() {
     return {
@@ -224,6 +227,9 @@ export default {
   methods: {
     handleDropdownCommand(command) {
       console.log(command);
+    },
+    onClickSendMessage() {
+      this.$bus.emit(OPEN_SEND_MESSAGE_MODAL);
     },
     getStyles(index) {
       return {
