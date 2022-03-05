@@ -41,119 +41,124 @@
     </div>
 
     <div class="user__content__wrapper">
-      <div class="user__grid__wrapper">
-        <template v-if="activeUsersTab === 'GRID'">
+      <template v-if="activeUsersTab === 'GRID'">
+        <div class="user__grid__wrapper">
           <UserCompactCard
             v-for="(user, idx) in users"
             :key="user.name + idx"
             :user="user"
           />
-        </template>
+        </div>
 
-        <template v-if="activeUsersTab === 'TABLE'">
-          <div class="table__wrapper">
-            <el-table :data="paginatedUsersData" style="width: 100%">
-              <el-table-column prop="name" label="User" width="300">
-                <template slot-scope="scope">
-                  <div class="horizontal__center gap-8">
-                    <el-avatar
-                      shape="square"
-                      size="large"
-                      :src="`https://avatars.dicebear.com/api/adventurer/${scope.row.name}.svg`"
-                    ></el-avatar>
+        <LoadMoreButton
+          @loadMore="handleLoadMoreData"
+          :loading="isLoadingMoreData"
+        />
+      </template>
 
-                    <h4>{{ scope.row.name }}</h4>
-                  </div>
-                </template>
-              </el-table-column>
+      <template v-if="activeUsersTab === 'TABLE'">
+        <div class="table__wrapper">
+          <el-table :data="paginatedUsersData" style="width: 100%">
+            <el-table-column prop="name" label="User" width="300">
+              <template slot-scope="scope">
+                <div class="horizontal__center gap-8">
+                  <el-avatar
+                    shape="square"
+                    size="large"
+                    :src="`https://avatars.dicebear.com/api/adventurer/${scope.row.name}.svg`"
+                  ></el-avatar>
 
-              <el-table-column prop="role" label="Role">
-                <template slot-scope="scope">
-                  <h5>{{ scope.row.role }}</h5>
-                </template>
-              </el-table-column>
+                  <h4>{{ scope.row.name }}</h4>
+                </div>
+              </template>
+            </el-table-column>
 
-              <el-table-column prop="verified" label="Verification">
-                <template slot-scope="scope">
-                  <el-tag
-                    size="small"
-                    :type="scope.row.verified ? 'primary' : 'danger'"
-                    effect="dark"
+            <el-table-column prop="role" label="Role">
+              <template slot-scope="scope">
+                <h5>{{ scope.row.role }}</h5>
+              </template>
+            </el-table-column>
+
+            <el-table-column prop="verified" label="Verification">
+              <template slot-scope="scope">
+                <el-tag
+                  size="small"
+                  :type="scope.row.verified ? 'primary' : 'danger'"
+                  effect="dark"
+                >
+                  {{ scope.row.verified ? "Verified" : "Unverified" }}
+                </el-tag>
+              </template>
+            </el-table-column>
+
+            <el-table-column prop="joinedDate" label="Joined Date">
+              <template slot-scope="scope">
+                <h5>{{ scope.row.joinedDate }}</h5>
+              </template>
+            </el-table-column>
+
+            <el-table-column prop="rate" label="Ratings" width="180">
+              <template slot-scope="scope">
+                <el-rate
+                  v-model="scope.row.rating"
+                  disabled
+                  show-score
+                  text-color="#ff9900"
+                  score-template="{value}"
+                >
+                </el-rate>
+              </template>
+            </el-table-column>
+
+            <el-table-column align="right">
+              <template slot="header"> Actions </template>
+              <template slot-scope="scope">
+                <el-dropdown
+                  @command="handleDropdownCommand($event, scope.row)"
+                  trigger="click"
+                  placement="bottom-end"
+                >
+                  <el-button size="mini" type="primary">Action</el-button>
+
+                  <el-dropdown-menu
+                    class="has-shadow has-no-padding-block"
+                    slot="dropdown"
                   >
-                    {{ scope.row.verified ? "Verified" : "Unverified" }}
-                  </el-tag>
-                </template>
-              </el-table-column>
-
-              <el-table-column prop="joinedDate" label="Joined Date">
-                <template slot-scope="scope">
-                  <h5>{{ scope.row.joinedDate }}</h5>
-                </template>
-              </el-table-column>
-
-              <el-table-column prop="rate" label="Ratings" width="180">
-                <template slot-scope="scope">
-                  <el-rate
-                    v-model="scope.row.rating"
-                    disabled
-                    show-score
-                    text-color="#ff9900"
-                    score-template="{value}"
-                  >
-                  </el-rate>
-                </template>
-              </el-table-column>
-
-              <el-table-column align="right">
-                <template slot="header"> Actions </template>
-                <template slot-scope="scope">
-                  <el-dropdown
-                    @command="handleDropdownCommand($event, scope.row)"
-                    trigger="click"
-                    placement="bottom-end"
-                  >
-                    <el-button size="mini" type="primary">Action</el-button>
-
-                    <el-dropdown-menu
-                      class="has-shadow has-no-padding-block"
-                      slot="dropdown"
+                    <el-dropdown-item
+                      command="VIEW_QUICK_PROFILE"
+                      class=""
+                      icon="el-icon-user"
+                      >View Quick Profile</el-dropdown-item
                     >
-                      <el-dropdown-item
-                        command="VIEW_QUICK_PROFILE"
-                        class=""
-                        icon="el-icon-user"
-                        >View Quick Profile</el-dropdown-item
-                      >
-                      <el-dropdown-item
-                        command="GOTO_PROFILE"
-                        class=""
-                        icon="el-icon-user"
-                        >Goto Profile</el-dropdown-item
-                      >
+                    <el-dropdown-item
+                      command="GOTO_PROFILE"
+                      class=""
+                      icon="el-icon-user"
+                      >Goto Profile</el-dropdown-item
+                    >
 
-                      <el-dropdown-item
-                        command="BLOCK_USER"
-                        class=""
-                        icon="el-icon-remove-outline"
-                        >Block User</el-dropdown-item
-                      >
-                    </el-dropdown-menu>
-                  </el-dropdown>
-                </template>
-              </el-table-column>
-            </el-table>
+                    <el-dropdown-item
+                      command="BLOCK_USER"
+                      class=""
+                      icon="el-icon-remove-outline"
+                      >Block User</el-dropdown-item
+                    >
+                  </el-dropdown-menu>
+                </el-dropdown>
+              </template>
+            </el-table-column>
+          </el-table>
 
-            <el-pagination
-              class="pagination"
-              @current-change="onTablePageChange"
-              background
-              layout="prev, pager, next"
-              :total="users.length"
-            >
-            </el-pagination>
-          </div>
-        </template>
-      </div>
+          <el-pagination
+            class="pagination"
+            @current-change="onTablePageChange"
+            background
+            layout="prev, pager, next"
+            :total="users.length"
+          >
+          </el-pagination>
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -162,6 +167,7 @@
 export default {
   components: {
     UserCompactCard: () => import("@/components/User/UserCompactCard"),
+    LoadMoreButton: () => import("@/components/Common/LoadMoreButton"),
   },
   data() {
     return {
@@ -202,7 +208,7 @@ export default {
         verificationStatus: "",
         joinedDate: "",
       },
-      activeUsersTab: "TABLE",
+      activeUsersTab: "GRID",
       tableDropdownCommands: {
         VIEW_QUICK_PROFILE: "VIEW_QUICK_PROFILE",
         GOTO_PROFILE: "GOTO_PROFILE",
@@ -212,6 +218,7 @@ export default {
         activeTablePage: 1,
         pageSize: 10,
       },
+      isLoadingMoreData: false,
     };
   },
   computed: {
@@ -227,6 +234,18 @@ export default {
     },
   },
   methods: {
+    addMoreUsers(amount = 20) {
+      Array.from(Array(amount).keys()).forEach((idx) => {
+        this.users.push({
+          verified: Math.random() < 0.5,
+          rating: parseInt((Math.random() * 3 + 1).toFixed(2)),
+          joinedDate: Math.round(Math.random() * 9 + 2) + " months ago",
+          name: "Victoria Wilkiins " + idx,
+          email: "victoriawilkins@gmail.com",
+          role: "CEO",
+        });
+      });
+    },
     onTablePageChange(page) {
       this.usersTablePaginationInfo.activeTablePage = page;
     },
@@ -252,18 +271,17 @@ export default {
     onSubmit() {
       console.log("submit!");
     },
+    handleLoadMoreData() {
+      this.isLoadingMoreData = true;
+
+      setTimeout(() => {
+        this.addMoreUsers();
+        this.isLoadingMoreData = false;
+      }, 1000);
+    },
   },
   mounted() {
-    Array.from(Array(20).keys()).forEach((idx) => {
-      this.users.push({
-        verified: Math.random() < 0.5,
-        rating: parseInt((Math.random() * 3 + 1).toFixed(2)),
-        joinedDate: Math.round(Math.random() * 9 + 2) + " months ago",
-        name: "Victoria Wilkiins " + idx,
-        email: "victoriawilkins@gmail.com",
-        role: "CEO",
-      });
-    });
+    this.addMoreUsers();
   },
 };
 </script>

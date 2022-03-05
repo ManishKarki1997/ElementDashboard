@@ -6,6 +6,7 @@ import {
   faShoppingBasket,
   faUser as fasUser,
   faSquare as fasSquare,
+  faRedoAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -29,4 +30,5 @@ export default [
   faUser,
   faSquare,
   fasSquare,
+  faRedoAlt,
 ];
