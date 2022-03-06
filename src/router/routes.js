@@ -122,7 +122,7 @@ export default [
       },
       {
         path: "/app/blogs",
-        name: "Dashboard Blogs Index",
+
         meta: {
           name: "Blogs",
         },

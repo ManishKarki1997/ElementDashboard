@@ -1,7 +1,9 @@
+@import "./abstracts/variables";
 @import "./base/reset.scss";
 @import "./base/base.scss";
 @import "./base/typography.scss";
 @import "./base/typography-helpers.scss";
+@import "./base/scrollbar.scss";
 
 @import "./abstracts/theme-enums";
 @import "./abstracts/mixins";

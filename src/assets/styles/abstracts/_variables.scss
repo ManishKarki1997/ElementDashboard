@@ -20,6 +20,10 @@ $bg-tertiary--light: #ebe7e7;
 $bg-icon-button--light: #e0e0e0;
 $bg-icon-button-hover--light: #dddada;
 
+$scrollbar-track--light: rgb(211, 211, 211);
+$scrollbar-thumb--light: rgb(180, 178, 178);
+$scrollbar-thumb-hover--light: rgb(148, 148, 148);
+
 // dark
 $text-primary--dark: #fff;
 $text-secondary--dark: rgb(219, 215, 215);
@@ -35,3 +39,7 @@ $brand-color--dark: #2884ff;
 
 $bg-icon-button--dark: #252628;
 $bg-icon-button-hover--dark: #202122;
+
+$scrollbar-track--dark: rgb(68, 67, 67);
+$scrollbar-thumb--dark: rgb(46, 45, 45);
+$scrollbar-thumb-hover--dark: rgb(32, 32, 32);

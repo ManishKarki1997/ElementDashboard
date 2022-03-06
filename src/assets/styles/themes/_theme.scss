@@ -13,6 +13,9 @@ $themes: (
     link-primary-hover: $link-primary-hover--light,
     bg-icon-button: $bg-icon-button--light,
     bg-icon-button-hover: $bg-icon-button-hover--light,
+    scrollbar-track: $scrollbar-track--light,
+    scrollbar-thumb: $scrollbar-thumb--light,
+    scrollbar-thumb-hover: $scrollbar-thumb-hover--light,
   ),
   dark: (
     brand-color: $brand-color--dark,
@@ -26,6 +29,9 @@ $themes: (
     link-primary-hover: $link-primary-hover--dark,
     bg-icon-button: $bg-icon-button--dark,
     bg-icon-button-hover: $bg-icon-button-hover--dark,
+    scrollbar-track: $scrollbar-track--dark,
+    scrollbar-thumb: $scrollbar-thumb--dark,
+    scrollbar-thumb-hover: $scrollbar-thumb-hover--dark,
   ),
 );
 
