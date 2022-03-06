@@ -99,6 +99,85 @@ export default [
         ],
       },
       {
+        path: "/app/orders",
+        name: "Dashboard Orders",
+        meta: {
+          name: "Orders",
+        },
+        component: () =>
+          import(
+            /* webpackChunkName: "Dashboard Orders" */ "../pages/Dashboard/Orders/Orders"
+          ),
+      },
+      {
+        path: "/app/milestones",
+        name: "Dashboard Milestones",
+        meta: {
+          name: "Milestones",
+        },
+        component: () =>
+          import(
+            /* webpackChunkName: "Dashboard Milestones" */ "../pages/Dashboard/Milestones/Milestones"
+          ),
+      },
+      {
+        path: "/app/blogs",
+        name: "Dashboard Blogs Index",
+        meta: {
+          name: "Blogs",
+        },
+        component: () =>
+          import(
+            /* webpackChunkName: "Dashboard Blogs" */ "../pages/Dashboard/Blogs/index"
+          ),
+        children: [
+          {
+            path: "",
+            name: "Dashboard All Blogs",
+            meta: {
+              name: "Blogs",
+            },
+            component: () =>
+              import(
+                /* webpackChunkName: "Dashboard Blogs" */ "../pages/Dashboard/Blogs/AllBlogs"
+              ),
+          },
+          {
+            path: "/app/blogs/add",
+            name: "Dashboard Add Blog",
+            meta: {
+              name: "Add Blog",
+            },
+            component: () =>
+              import(
+                /* webpackChunkName: "Dashboard Add Blog" */ "../pages/Dashboard/Blogs/AddBlog"
+              ),
+          },
+          {
+            path: "/app/blogs/categories",
+            name: "Dashboard Categories",
+            meta: {
+              name: "Blog Categories",
+            },
+            component: () =>
+              import(
+                /* webpackChunkName: "Dashboard Blog Categories" */ "../pages/Dashboard/Blogs/BlogCategories"
+              ),
+          },
+        ],
+      },
+      {
+        path: "/app/custom-order-requests",
+        name: "Dashboard CustomOrder Requests",
+        meta: {
+          name: "Custom Order Requests",
+        },
+        component: () =>
+          import(
+            /* webpackChunkName: "Dashboard CustomOrder Requests" */ "../pages/Dashboard/CustomOrderRequest/CustomOrderRequest"
+          ),
+      },
+      {
         path: "/app/settings",
         name: "Dashboard Settings",
         meta: {

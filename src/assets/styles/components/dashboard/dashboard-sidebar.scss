@@ -3,6 +3,8 @@
   height: 100vh;
   left: 0;
   top: 0;
+  z-index: 10;
+  overflow: auto;
 }
 
 .dashboard__sidebar .el-menu-item:not(.brand__info__item) {

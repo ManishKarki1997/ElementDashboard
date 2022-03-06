@@ -25,19 +25,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-.dashboard-home {
-  min-height: 100vh;
-  display: flex;
-
-  .dashboard__body {
-    min-height: 100vh;
-    width: 100%;
-  }
-  .dashboard__body-content {
-    padding: 1rem;
-    width: 100%;
-  }
-}
-</style>

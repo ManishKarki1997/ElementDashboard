@@ -108,22 +108,22 @@ export default {
             {
               name: "Admins",
               iconName: "el-icon-user",
-              path: "/app/users/admins",
+              path: "/app/users?type=admins",
             },
             {
               name: "Worckers",
               iconName: "el-icon-user",
-              path: "/app/users/worckers",
+              path: "/app/users?type=worckers",
             },
             {
               name: "Independent Hirers",
               iconName: "el-icon-user",
-              path: "/app/users/independent-hirers",
+              path: "/app/users?type=independent-hirers",
             },
             {
               name: "Organization Hirers",
               iconName: "el-icon-user",
-              path: "/app/users/organization-hirers",
+              path: "/app/users?type=organization-hirers",
             },
           ],
         },
@@ -152,22 +152,22 @@ export default {
             {
               name: "All Orders",
               iconName: "el-icon-shopping-cart-full",
-              path: "/app/orders/orders",
+              path: "/app/orders",
             },
             {
               name: "Completed Orders",
               iconName: "el-icon-shopping-cart-full",
-              path: "/app/orders/completed-orders",
+              path: "/app/orders?type=completed-orders",
             },
             {
               name: "Cancelled Orders",
               iconName: "el-icon-shopping-cart-full",
-              path: "/app/orders/cancelled-orders",
+              path: "/app/orders?type=cancelled-orders",
             },
             {
               name: "Unresponded Orders",
               iconName: "el-icon-shopping-cart-full",
-              path: "/app/orders/unresponded-orders",
+              path: "/app/orders?type=unresponded-orders",
             },
           ],
         },
@@ -177,9 +177,9 @@ export default {
           path: "/app/blogs",
           subMenu: [
             {
-              name: "Create New Blog",
+              name: "Add New Blog",
               iconName: "el-icon-circle-plus-outline",
-              path: "/app/blogs/create",
+              path: "/app/blogs/add",
             },
             {
               name: "All Blogs",
@@ -201,19 +201,19 @@ export default {
             {
               name: "Ongoing Milestones",
               iconName: "el-icon-ice-cream-square",
-              path: "/app/milestones/ongoing-milestones",
+              path: "/app/milestones?type=ongoing-milestones",
             },
             {
               name: "Deposit Pending",
               iconName: "el-icon-ice-cream-square",
-              path: "/app/milestones/deposit-pending",
+              path: "/app/milestones/?type=deposit-pending",
             },
           ],
         },
         {
           name: "Custom Order Requests",
           iconName: "el-icon-odometer",
-          path: "/app/custom-projects",
+          path: "/app/custom-order-requests",
         },
         {
           name: "Settings",
