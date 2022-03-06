@@ -52,6 +52,15 @@ export default {
 </script>
 
 <style lang="scss">
+.create__gig__stepper {
+  padding: 1rem;
+
+  @include box-shadow();
+  @include radius($large);
+  @include themed() {
+    background-color: t($bg-secondary);
+  }
+}
 .create__gig__stepper .el-step__title {
   font-weight: 400;
   @include themed() {

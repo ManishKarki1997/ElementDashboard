@@ -1,6 +1,10 @@
 <template>
   <div class="dashboard__page create__gig">
     <CreateGigStepper />
+
+    <div class="create__gig__body">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -15,4 +19,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.create__gig__body {
+  margin-top: $spacing-2;
+}
+</style>

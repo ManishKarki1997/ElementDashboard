@@ -92,7 +92,7 @@ export default {
   @include radius();
   @include box-shadow();
 
-  @include spacing($spacing-2, "margin-bottom");
+  margin-bottom: $spacing-2;
 
   .views__wrapper {
     .el-button {

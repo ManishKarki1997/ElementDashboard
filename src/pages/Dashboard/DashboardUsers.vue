@@ -290,7 +290,7 @@ export default {
 
 <style lang="scss" scoped>
 .pagination {
-  @include spacing($spacing-2, "margin-top");
+  margin-top: $spacing-2;
 }
 .filters__header {
   display: flex;
@@ -305,7 +305,7 @@ export default {
   @include radius();
   @include box-shadow();
 
-  @include spacing($spacing-2, "margin-bottom");
+  margin-bottom: $spacing-2;
 }
 .user__grid__wrapper {
   display: grid;

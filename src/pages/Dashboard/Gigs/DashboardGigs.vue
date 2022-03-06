@@ -274,7 +274,7 @@ export default {
 
 <style scoped lang="scss">
 .pagination {
-  @include spacing($spacing-2, "margin-top");
+  margin-top: $spacing-2;
 }
 .products__grid {
   display: grid;

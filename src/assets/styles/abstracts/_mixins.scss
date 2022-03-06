@@ -32,7 +32,3 @@
 @mixin radius($params: $small) {
   border-radius: $params;
 }
-
-@mixin spacing($params: $spacing-1, $margin: "margin-bottom") {
-  #{$margin}: $params;
-}

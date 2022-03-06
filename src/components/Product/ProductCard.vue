@@ -223,8 +223,8 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      @include spacing($spacing-2, "margin-top");
-      @include spacing($spacing-8px, "margin-bottom");
+      margin-top: $spacing-2;
+      margin-bottom: $spacing-8px;
     }
 
     .product__name {
@@ -233,7 +233,7 @@ export default {
     }
 
     .product__pricing {
-      @include spacing($spacing-1, "margin-bottom");
+      margin-bottom: $spacing-1;
 
       h2 {
         color: $danger-color;

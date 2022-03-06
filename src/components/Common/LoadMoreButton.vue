@@ -37,7 +37,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-
-  @include spacing($spacing-4, "margin-block");
+  margin-block: $spacing-4;
 }
 </style>

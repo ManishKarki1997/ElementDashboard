@@ -50,13 +50,17 @@ export default [
       },
       {
         path: "/app/gigs/create",
+        redirect: "/app/gigs/create/gig-overview",
+      },
+      {
+        path: "/app/gigs/create/gig-overview",
         meta: {
           name: "Create Gig",
         },
-        redirect: "/app/gigs/create/gig-overview",
+        // redirect: "/app/gigs/create/gig-overview",
         component: () =>
           import(
-            /* webpackChunkName: "Create Gig" */ "../pages/Dashboard/Gigs/CreateGig"
+            /* webpackChunkName: "Create Gig " */ "../pages/Dashboard/Gigs/CreateGig"
           ),
         children: [
           {
