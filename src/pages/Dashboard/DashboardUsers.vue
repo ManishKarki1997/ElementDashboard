@@ -127,10 +127,10 @@
                     slot="dropdown"
                   >
                     <el-dropdown-item
-                      command="VIEW_QUICK_PROFILE"
+                      command="QUICK_VIEW_PROFILE"
                       class=""
                       icon="el-icon-user"
-                      >View Quick Profile</el-dropdown-item
+                      >Quick View Profile</el-dropdown-item
                     >
                     <el-dropdown-item
                       command="GOTO_PROFILE"
@@ -212,7 +212,7 @@ export default {
       },
       activeUsersTab: "GRID",
       tableDropdownCommands: {
-        VIEW_QUICK_PROFILE: "VIEW_QUICK_PROFILE",
+        QUICK_VIEW_PROFILE: "QUICK_VIEW_PROFILE",
         GOTO_PROFILE: "GOTO_PROFILE",
         BLOCK_USER: "BLOCK_USER",
       },

@@ -16,6 +16,7 @@ import {
   faRocket,
   faDollarSign,
   faPlus,
+  faBoxOpen,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -53,4 +54,5 @@ export default [
   faRocket,
   faDollarSign,
   faPlus,
+  faBoxOpen,
 ];

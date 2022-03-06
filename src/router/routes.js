@@ -39,15 +39,60 @@ export default [
           ),
       },
       {
-        path: "/app/products",
-        name: "Dashboard Products",
+        path: "/app/gigs",
         meta: {
-          name: "Products",
+          name: "Gigs",
         },
         component: () =>
           import(
-            /* webpackChunkName: "Dashboard Products" */ "../pages/Dashboard/DashboardProducts"
+            /* webpackChunkName: "Dashboard Gigs" */ "../pages/Dashboard/Gigs/DashboardGigs"
           ),
+      },
+      {
+        path: "/app/gigs/create",
+        meta: {
+          name: "Create Gig",
+        },
+        redirect: "/app/gigs/create/gig-overview",
+        component: () =>
+          import(
+            /* webpackChunkName: "Create Gig" */ "../pages/Dashboard/Gigs/CreateGig"
+          ),
+        children: [
+          {
+            path: "/app/gigs/create/gig-overview",
+            meta: {
+              name: "Create Gig | Overview",
+              step: 1,
+            },
+            component: () =>
+              import(
+                /* webpackChunkName: "Create Gig Overview" */ "../pages/Dashboard/Gigs/CreateGigOverview"
+              ),
+          },
+          {
+            path: "/app/gigs/create/gig-pricing",
+            meta: {
+              name: "Create Gig | Pricing",
+              step: 2,
+            },
+            component: () =>
+              import(
+                /* webpackChunkName: "Create Gig Pricing" */ "../pages/Dashboard/Gigs/CreateGigPricing"
+              ),
+          },
+          {
+            path: "/app/gigs/create/gig-gallery",
+            meta: {
+              name: "Create Gig | Gallery",
+              step: 3,
+            },
+            component: () =>
+              import(
+                /* webpackChunkName: "Create Gig Galery" */ "../pages/Dashboard/Gigs/CreateGigGallery"
+              ),
+          },
+        ],
       },
       {
         path: "/app/settings",
