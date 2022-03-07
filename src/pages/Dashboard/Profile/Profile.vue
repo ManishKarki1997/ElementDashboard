@@ -55,6 +55,11 @@ export default {
           path: "/app/profile/starscream/work-history",
         },
         {
+          icon: ["far", "clone"],
+          name: "Documents",
+          path: "/app/profile/starscream/documents",
+        },
+        {
           icon: ["fas", "th-large"],
           name: "Listed Products",
           path: "/app/profile/starscream/listed-products",

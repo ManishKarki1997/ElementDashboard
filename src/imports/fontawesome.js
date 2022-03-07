@@ -36,6 +36,9 @@ import {
   faCheckCircle,
   faTimesCircle,
   faFlag,
+  faClone,
+  faStickyNote,
+  faImage,
 } from "@fortawesome/free-regular-svg-icons";
 
 export default [
@@ -73,4 +76,7 @@ export default [
   faBullhorn,
   faFlag,
   faBriefcase,
+  faClone,
+  faStickyNote,
+  faImage,
 ];

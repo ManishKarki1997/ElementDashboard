@@ -266,6 +266,17 @@ export default [
                 /* webpackChunkName: "User Profile Work History" */ "../pages/Dashboard/Profile/WorkHistory"
               ),
           },
+          {
+            path: "/app/profile/:userId/documents",
+            name: "User Profile Documents",
+            meta: {
+              name: "Documents",
+            },
+            component: () =>
+              import(
+                /* webpackChunkName: "User Profile Documents" */ "../pages/Dashboard/Profile/Documents"
+              ),
+          },
         ],
       },
     ],
