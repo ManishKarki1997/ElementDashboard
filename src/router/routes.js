@@ -221,6 +221,7 @@ export default [
                 /* webpackChunkName: "User Profile Listed Products" */ "../pages/Dashboard/Profile/ListedProducts"
               ),
           },
+
           {
             path: "/app/profile/:userId/social-links",
             name: "User Profile Social Links",
@@ -230,6 +231,17 @@ export default [
             component: () =>
               import(
                 /* webpackChunkName: "User Profile Social Links" */ "../pages/Dashboard/Profile/SocialLinks"
+              ),
+          },
+          {
+            path: "/app/profile/:userId/education-history",
+            name: "User Profile Education History",
+            meta: {
+              name: "Education History",
+            },
+            component: () =>
+              import(
+                /* webpackChunkName: "User Profile Education History" */ "../pages/Dashboard/Profile/EducationHistory"
               ),
           },
           {

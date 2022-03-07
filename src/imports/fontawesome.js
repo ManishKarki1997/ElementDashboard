@@ -18,6 +18,9 @@ import {
   faPlus,
   faBoxOpen,
   faGlobeAsia,
+  faUniversity,
+  faHashtag,
+  faBullhorn,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -31,6 +34,7 @@ import {
   faDotCircle,
   faCheckCircle,
   faTimesCircle,
+  faFlag,
 } from "@fortawesome/free-regular-svg-icons";
 
 export default [
@@ -63,4 +67,8 @@ export default [
   faDotCircle,
   faCheckCircle,
   faTimesCircle,
+  faUniversity,
+  faHashtag,
+  faBullhorn,
+  faFlag,
 ];

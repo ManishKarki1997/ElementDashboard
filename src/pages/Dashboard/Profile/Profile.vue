@@ -40,9 +40,14 @@ export default {
           path: "/app/profile/starscream",
         },
         {
-          icon: ["fas", "globe-asia"],
+          icon: ["fas", "bullhorn"],
           name: "Social Links",
           path: "/app/profile/starscream/social-links",
+        },
+        {
+          icon: ["fas", "university"],
+          name: "Education History",
+          path: "/app/profile/starscream/education-history",
         },
         {
           icon: ["fas", "th-large"],

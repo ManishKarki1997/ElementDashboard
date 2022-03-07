@@ -7,7 +7,7 @@
         class="social__link"
       >
         <div class="social__icon">
-          <font-awesome-icon :icon="['far', 'dot-circle']"></font-awesome-icon>
+          <font-awesome-icon :icon="['fas', 'hashtag']"></font-awesome-icon>
         </div>
         <div class="social__content">
           <div
