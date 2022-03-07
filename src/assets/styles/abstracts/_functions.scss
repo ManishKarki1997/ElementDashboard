@@ -1,7 +1,7 @@
 @import "../themes/theme";
 
 @function colorShade($color, $tone) {
-  @warn map-get($palettes,$color);
+  // @warn map-get($palettes,$color);
 
   @if map-has-key($palettes, $color) {
     $color: map-get($palettes, $color);

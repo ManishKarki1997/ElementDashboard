@@ -190,6 +190,16 @@ export default {
       statColors: ["#0581FC", "#E12B58", "#21A266", "#D35230"],
       profileMenuOptions: [
         {
+          icon: ["fas", "ban"],
+          name: "Unverify User",
+          command: "TOGGLE_VERIFICATION",
+        },
+        {
+          icon: ["fas", "sort-amount-up"],
+          name: "Change Tier",
+          command: "CHANGE_TIER",
+        },
+        {
           icon: ["fas", "paper-plane"],
           name: "Send Message",
           command: "SEND_MESSAGE",

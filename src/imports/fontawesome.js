@@ -23,6 +23,7 @@ import {
   faBullhorn,
   faBriefcase,
   faEnvelopeOpen,
+  faSortAmountUp,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -81,4 +82,5 @@ export default [
   faStickyNote,
   faImage,
   faEnvelopeOpen,
+  faSortAmountUp,
 ];
