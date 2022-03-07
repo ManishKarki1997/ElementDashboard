@@ -1,0 +1,129 @@
+.blog__card {
+  max-width: 360px;
+
+  &:hover {
+    @include box-shadow();
+  }
+
+  .blog__card-inner {
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+
+    @include radius($large);
+    @include themed() {
+      background-color: t($bg-secondary);
+    }
+
+    &:hover .blog__image {
+      transform: scale(1.05);
+    }
+
+    .blog__image {
+      will-change: transform;
+      transition: transform ease-in 0.2s;
+    }
+
+    .blog__category {
+      font-size: 1rem;
+    }
+
+    .blog__card-content {
+      padding: 1.5rem 1rem;
+    }
+
+    .blog__title {
+      font-size: 1.2rem;
+      cursor: pointer;
+      margin-top: $spacing-8px;
+      margin-bottom: $spacing-1;
+    }
+
+    .author__info__wrapper {
+      display: flex;
+      align-items: center;
+      gap: $spacing-8px;
+
+      .author__name {
+        cursor: pointer;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .blog__image__wrapper {
+    overflow: hidden;
+    height: 250px;
+  }
+  .blog__image {
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* for overlay type */
+  &.blog__card-overlay {
+    height: 100%;
+
+    .blog__card-inner::after {
+      position: absolute;
+      content: "";
+      width: 100%;
+      height: 100%;
+      left: 0;
+      bottom: 0;
+      cursor: pointer;
+
+      background: rgba(255, 255, 255, 0)
+        linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0) 10%,
+          rgba(0, 0, 0, 0.1) 40%,
+          rgba(0, 0, 0, 0.5) 75%,
+          rgba(0, 0, 0, 0.6) 100%
+        )
+        repeat scroll 0 0;
+    }
+
+    .blog__image,
+    .blog__image__wrapper {
+      height: 100%;
+    }
+
+    .blog__card-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      z-index: 10;
+
+      .blog__meta {
+        & > * {
+          color: $text-secondary--dark;
+        }
+
+        .blog__category {
+          text-transform: uppercase;
+        }
+      }
+
+      .blog__title {
+        color: $text-primary--dark;
+      }
+
+      .author__details .author__name {
+        color: $text-primary--dark;
+      }
+      .author__details p {
+        color: $text-secondary--dark;
+      }
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .blog__card {
+    max-width: 100%;
+  }
+}

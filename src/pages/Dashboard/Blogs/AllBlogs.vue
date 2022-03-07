@@ -1,15 +1,15 @@
 <template>
   <div class="dashboard__page dashboard__all__blogs">
-    <h4>All Blogs</h4>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae ipsa
-      cumque totam nostrum quam et quibusdam impedit minus ducimus unde?
-    </p>
+    <BlogGrid />
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  components: {
+    BlogGrid: () => import("@/components/Blogs/BlogGrid"),
+  },
+};
 </script>
 
 <style></style>
