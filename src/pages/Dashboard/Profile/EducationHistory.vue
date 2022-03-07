@@ -40,21 +40,21 @@ export default {
       educationHistory: [
         {
           country: "Nepal",
-          insituteName: "Chelsea International",
+          instituteName: "Chelsea International",
           title: "A-Level",
           degree: "A-Level",
           graduationDate: "March 16, 2008",
         },
         {
           country: "Nepal",
-          insituteName: "Zenith International",
+          instituteName: "Zenith International",
           title: "Bachelor",
           degree: "Computer Science",
           graduationDate: "Jan 11, 2010",
         },
         {
           country: "Scotland",
-          insituteName: "Scottish International",
+          instituteName: "Scottish International",
           title: "Masters",
           degree: "Computer Science",
           graduationDate: "April 20, 2019",

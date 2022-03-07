@@ -256,14 +256,14 @@ export default [
               ),
           },
           {
-            path: "/app/profile/:userId/notifications",
-            name: "User Profile Notifications",
+            path: "/app/profile/:userId/work-history",
+            name: "User Profile Work History",
             meta: {
-              name: "Notifications",
+              name: "Work History",
             },
             component: () =>
               import(
-                /* webpackChunkName: "User Profile Notifications" */ "../pages/Dashboard/Profile/Notifications"
+                /* webpackChunkName: "User Profile Work History" */ "../pages/Dashboard/Profile/WorkHistory"
               ),
           },
         ],

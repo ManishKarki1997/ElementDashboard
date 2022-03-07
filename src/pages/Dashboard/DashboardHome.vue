@@ -11,7 +11,10 @@
             <template slot-scope="scope">
               <div class="user__profile">
                 <img :src="scope.row.user.image" alt="User Avatar" />
-                <h5>{{ scope.row.user.name }}</h5>
+                <!-- <h5>{{ scope.row.user.name }}</h5> -->
+                <router-link to="/app/profile/starscream">{{
+                  scope.row.user.name
+                }}</router-link>
               </div>
             </template>
           </el-table-column>

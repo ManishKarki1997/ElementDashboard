@@ -21,6 +21,7 @@ import {
   faUniversity,
   faHashtag,
   faBullhorn,
+  faBriefcase,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -71,4 +72,5 @@ export default [
   faHashtag,
   faBullhorn,
   faFlag,
+  faBriefcase,
 ];

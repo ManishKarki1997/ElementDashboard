@@ -50,6 +50,11 @@ export default {
           path: "/app/profile/starscream/education-history",
         },
         {
+          icon: ["fas", "briefcase"],
+          name: "Work History",
+          path: "/app/profile/starscream/work-history",
+        },
+        {
           icon: ["fas", "th-large"],
           name: "Listed Products",
           path: "/app/profile/starscream/listed-products",
@@ -58,11 +63,6 @@ export default {
           icon: ["far", "comments"],
           name: "Reviews",
           path: "/app/profile/starscream/reviews",
-        },
-        {
-          icon: ["far", "bell"],
-          name: "Notifications",
-          path: "/app/profile/starscream/notifications",
         },
       ],
     };

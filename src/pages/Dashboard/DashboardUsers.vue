@@ -70,7 +70,9 @@
                     :src="`https://avatars.dicebear.com/api/adventurer/${scope.row.name}.svg`"
                   ></el-avatar>
 
-                  <h4>{{ scope.row.name }}</h4>
+                  <router-link to="/app/profile/starscream">{{
+                    scope.row.name
+                  }}</router-link>
                 </div>
               </template>
             </el-table-column>

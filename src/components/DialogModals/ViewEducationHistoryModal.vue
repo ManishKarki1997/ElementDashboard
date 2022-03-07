@@ -26,7 +26,7 @@
           <div class="education__item">
             <label> Institute </label>
             <div class="item__value">
-              <h4>{{ educationHistory.insituteName }}</h4>
+              <h4>{{ educationHistory.instituteName }}</h4>
             </div>
           </div>
         </el-col>
