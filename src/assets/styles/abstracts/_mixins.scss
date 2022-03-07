@@ -32,3 +32,19 @@
 @mixin radius($params: $small) {
   border-radius: $params;
 }
+
+@mixin all-center() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@mixin x-center() {
+  display: flex;
+  align-items: center;
+}
+
+@mixin full-width-touch-devices() {
+  @media (max-width: 948px) {
+    max-width: 100% !important;
+  }
+}

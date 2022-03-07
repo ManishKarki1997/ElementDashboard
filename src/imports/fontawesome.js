@@ -17,6 +17,7 @@ import {
   faDollarSign,
   faPlus,
   faBoxOpen,
+  faGlobeAsia,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -27,6 +28,9 @@ import {
   faSquare,
   faComments,
   faBell,
+  faDotCircle,
+  faCheckCircle,
+  faTimesCircle,
 } from "@fortawesome/free-regular-svg-icons";
 
 export default [
@@ -55,4 +59,8 @@ export default [
   faDollarSign,
   faPlus,
   faBoxOpen,
+  faGlobeAsia,
+  faDotCircle,
+  faCheckCircle,
+  faTimesCircle,
 ];

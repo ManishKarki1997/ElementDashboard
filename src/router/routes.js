@@ -222,6 +222,17 @@ export default [
               ),
           },
           {
+            path: "/app/profile/:userId/social-links",
+            name: "User Profile Social Links",
+            meta: {
+              name: "Social Links",
+            },
+            component: () =>
+              import(
+                /* webpackChunkName: "User Profile Social Links" */ "../pages/Dashboard/Profile/SocialLinks"
+              ),
+          },
+          {
             path: "/app/profile/:userId/reviews",
             name: "User Profile Reviews",
             meta: {

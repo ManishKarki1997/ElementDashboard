@@ -40,6 +40,11 @@ export default {
           path: "/app/profile/starscream",
         },
         {
+          icon: ["fas", "globe-asia"],
+          name: "Social Links",
+          path: "/app/profile/starscream/social-links",
+        },
+        {
           icon: ["fas", "th-large"],
           name: "Listed Products",
           path: "/app/profile/starscream/listed-products",
@@ -64,7 +69,8 @@ export default {
 .profile__links {
   display: flex;
   align-items: center;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 12px 8px;
   background-color: transparent;
 
   & > * {
