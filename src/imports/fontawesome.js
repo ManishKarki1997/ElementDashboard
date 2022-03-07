@@ -22,6 +22,7 @@ import {
   faHashtag,
   faBullhorn,
   faBriefcase,
+  faEnvelopeOpen,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -79,4 +80,5 @@ export default [
   faClone,
   faStickyNote,
   faImage,
+  faEnvelopeOpen,
 ];

@@ -60,6 +60,11 @@ export default {
           path: "/app/profile/starscream/documents",
         },
         {
+          icon: ["fas", "paper-plane"],
+          name: "Email Logs",
+          path: "/app/profile/starscream/email-logs",
+        },
+        {
           icon: ["fas", "th-large"],
           name: "Listed Products",
           path: "/app/profile/starscream/listed-products",

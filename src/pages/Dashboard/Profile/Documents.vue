@@ -1,12 +1,12 @@
 <template>
-  <div class="education__history">
-    <div class="education__grid">
+  <div class="documents">
+    <div class="documents__grid">
       <div
         v-for="(document, idx) in documents"
         :key="document.name + '-' + idx"
-        class="education__item"
+        class="document__item"
       >
-        <div class="education__icon">
+        <div class="document__icon">
           <font-awesome-icon
             :icon="[
               'far',
@@ -15,9 +15,9 @@
           ></font-awesome-icon>
         </div>
 
-        <div class="education__content">
+        <div class="document__content">
           <h4 class="title">{{ document.name }}</h4>
-          <p class="degree small__secondary">{{ document.type }}</p>
+          <p class="type small__secondary">{{ document.type }}</p>
         </div>
 
         <div class="view__button">
@@ -68,13 +68,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.education__grid {
+.documents__grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2rem 1rem;
 }
 
-.education__item {
+.document__item {
   padding: 1rem;
   gap: $spacing-1;
   max-width: 400px;
@@ -96,7 +96,7 @@ export default {
     }
   }
 
-  .education__icon {
+  .document__icon {
     min-width: 60px;
     height: 60px;
 

@@ -277,6 +277,17 @@ export default [
                 /* webpackChunkName: "User Profile Documents" */ "../pages/Dashboard/Profile/Documents"
               ),
           },
+          {
+            path: "/app/profile/:userId/email-logs",
+            name: "User Profile Email Logs",
+            meta: {
+              name: "Email Logs",
+            },
+            component: () =>
+              import(
+                /* webpackChunkName: "User Profile Email Logs" */ "../pages/Dashboard/Profile/EmailLogs"
+              ),
+          },
         ],
       },
     ],
