@@ -99,7 +99,11 @@ export default {
           iconName: "el-icon-menu",
           path: "/app",
         },
-
+        {
+          name: "Profile",
+          iconName: "el-icon-user",
+          path: "/app/profile/starscream",
+        },
         {
           name: "Users",
           iconName: "el-icon-user",

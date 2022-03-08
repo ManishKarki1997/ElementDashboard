@@ -51,3 +51,24 @@
     }
   }
 }
+
+.el_menu .el-table,
+.el-table__expanded-cell,
+.el-table tr,
+.el-table td.el-table__cell {
+  @include themed() {
+    background-color: t($bg-secondary);
+  }
+}
+
+.el-table th.el-table__cell.is-leaf {
+  @include themed() {
+    background-color: t($bg-primary);
+  }
+}
+.el-table td.el-table__cell,
+.el-table th.el-table__cell.is-leaf {
+  @include themed() {
+    background-color: t($bg-secondary);
+  }
+}
