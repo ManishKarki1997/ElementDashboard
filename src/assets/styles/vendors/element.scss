@@ -1,3 +1,8 @@
+.el-scrollbar__wrap {
+  overflow: auto;
+  height: 100%;
+}
+
 // dialog modal styles
 .el-message-box {
   border: none !important;

@@ -119,9 +119,10 @@
     background-color: t($link-primary) !important;
     color: white;
   }
-  span {
+  span,
+  i {
     @include themed() {
-      color: white;
+      color: white !important;
     }
   }
 }
