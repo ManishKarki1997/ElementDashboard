@@ -26,6 +26,8 @@ $scrollbar-track--light: rgb(211, 211, 211);
 $scrollbar-thumb--light: rgb(180, 178, 178);
 $scrollbar-thumb-hover--light: rgb(148, 148, 148);
 
+$sidebar-link-hover--light: #dddbdb;
+
 // dark
 $text-primary--dark: #fff;
 $text-secondary--dark: rgb(219, 215, 215);
@@ -45,3 +47,5 @@ $bg-icon-button-hover--dark: #202122;
 $scrollbar-track--dark: rgb(68, 67, 67);
 $scrollbar-thumb--dark: rgb(46, 45, 45);
 $scrollbar-thumb-hover--dark: rgb(32, 32, 32);
+
+$sidebar-link-hover--dark: #2b303c;

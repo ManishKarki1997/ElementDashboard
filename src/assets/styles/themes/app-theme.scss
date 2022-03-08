@@ -1,3 +1,12 @@
+a {
+  @include themed() {
+    color: t($link-primary);
+
+    &:hover {
+      color: t($link-primary-hover);
+    }
+  }
+}
 .el-dropdown-menu__item.danger:focus,
 .el-dropdown-menu__item.danger:hover {
   color: $danger-color;
@@ -52,12 +61,30 @@
   }
 }
 
+.el-row {
+  @include themed() {
+    background-color: t($bg-secondary);
+  }
+}
+
 .el_menu .el-table,
 .el-table__expanded-cell,
 .el-table tr,
 .el-table td.el-table__cell {
   @include themed() {
     background-color: t($bg-secondary);
+  }
+}
+
+.el-table--enable-row-hover .el-table__body tr:hover > td.el-table__cell {
+  @include themed() {
+    background-color: t($bg-primary);
+  }
+}
+.el-table td.el-table__cell,
+.el-table th.el-table__cell.is-leaf {
+  @include themed() {
+    border-color: t($bg-primary);
   }
 }
 
@@ -70,5 +97,54 @@
 .el-table th.el-table__cell.is-leaf {
   @include themed() {
     background-color: t($bg-secondary);
+  }
+}
+
+// el-menu - menu items
+
+// don't style for link items that have submenu,
+.el-menu {
+  @include themed() {
+    background-color: t($bg-secondary);
+  }
+}
+.el-menu li {
+  &:not(.el-submenu):hover {
+    @include themed() {
+      background-color: t($sidebar-link-hover);
+    }
+  }
+  &.el-submenu {
+    .el-submenu__title {
+      @include themed() {
+        i,
+        span {
+          color: t($text-primary) !important;
+        }
+      }
+    }
+    div {
+      border-radius: 5px !important;
+
+      &:hover {
+        @include themed() {
+          background-color: t($sidebar-link-hover);
+        }
+      }
+    }
+  }
+
+  &.sidebar__buttons__row {
+    &:hover {
+      background-color: transparent !important;
+    }
+  }
+}
+
+.el-input__inner,
+.el-textarea__inner,
+.el-button.el-button--default {
+  @include themed() {
+    background-color: t($bg-primary);
   }
 }

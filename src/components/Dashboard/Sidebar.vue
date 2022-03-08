@@ -13,7 +13,7 @@
         />
         <div class="info">
           <h1 class="brand__title">Luffy</h1>
-          <p class="brand__subtitle">Dashboard Template</p>
+          <p class="brand__subtitle small__secondary">Dashboard Template</p>
         </div>
       </div>
     </el-menu-item>
@@ -73,17 +73,22 @@
       </el-submenu>
     </router-link>
 
-    <el-menu-item
-      class="sidebar__toggle__btn"
-      @click="isCollapsed = !isCollapsed"
-      index="4"
-    >
-      <i
-        :class="[
-          isCollapsed ? 'el-icon-d-arrow-right' : 'el-icon-d-arrow-left',
-        ]"
-      ></i>
-      <!-- <span slot="title">Toggle Collapse</span> -->
+    <el-menu-item index="100" class="sidebar__buttons__row">
+      <el-button class="sidebar__toggle__btn" @click="toggleDarkMode">
+        <i
+          :class="[isDarkMode ? 'el-icon-sunrise-1' : 'el-icon-moon-night']"
+        ></i>
+      </el-button>
+      <el-button
+        class="sidebar__toggle__btn"
+        @click="isCollapsed = !isCollapsed"
+      >
+        <i
+          :class="[
+            isCollapsed ? 'el-icon-d-arrow-right' : 'el-icon-d-arrow-left',
+          ]"
+        ></i>
+      </el-button>
     </el-menu-item>
   </el-menu>
 </template>
@@ -93,6 +98,7 @@ export default {
   data() {
     return {
       isCollapsed: false,
+      isDarkMode: false,
       sidebarLinks: [
         {
           name: "Dashboard",
@@ -227,6 +233,30 @@ export default {
       ],
     };
   },
-  methods: {},
+  methods: {
+    toggleDarkMode() {
+      this.isDarkMode = !this.isDarkMode;
+      this.setThemeClass(this.isDarkMode);
+      localStorage.setItem(
+        "ELEMENT_DASHBOARD_THEME",
+        this.isDarkMode ? "dark" : "light"
+      );
+    },
+    setThemeClass(isThemeDark) {
+      if (isThemeDark) {
+        document.body.classList.remove("theme--light");
+        document.body.classList.add("theme--dark");
+      } else {
+        document.body.classList.remove("theme--dark");
+        document.body.classList.add("theme--light");
+      }
+    },
+  },
+  mounted() {
+    const lsTheme = localStorage.getItem("ELEMENT_DASHBOARD_THEME");
+    this.isDarkMode = !lsTheme ? false : lsTheme === "dark" ? true : false;
+    console.log(window.localStorage.getItem("ELEMENT_DASHBOARD_THEME"));
+    this.setThemeClass(this.isDarkMode);
+  },
 };
 </script>

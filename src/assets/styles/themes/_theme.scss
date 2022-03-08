@@ -16,6 +16,7 @@ $themes: (
     scrollbar-track: $scrollbar-track--light,
     scrollbar-thumb: $scrollbar-thumb--light,
     scrollbar-thumb-hover: $scrollbar-thumb-hover--light,
+    sidebar-link-hover: $sidebar-link-hover--light,
   ),
   dark: (
     brand-color: $brand-color--dark,
@@ -32,6 +33,7 @@ $themes: (
     scrollbar-track: $scrollbar-track--dark,
     scrollbar-thumb: $scrollbar-thumb--dark,
     scrollbar-thumb-hover: $scrollbar-thumb-hover--dark,
+    sidebar-link-hover: $sidebar-link-hover--dark,
   ),
 );
 
