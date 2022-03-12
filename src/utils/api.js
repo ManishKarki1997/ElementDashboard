@@ -2,14 +2,14 @@ import axios from "axios";
 
 const api = {
   setHeaders() {
+    const userKey = window.localStorage.getItem("kaido_template");
+    const user = userKey ? JSON.parse(userKey)?.user?.user : null;
+
     const instance = axios.create({
       baseURL: `${process.env.VUE_APP_API_URL}/admin`,
       headers: {
         Accept: "application/json",
-        Authorization:
-          localStorage.getItem("user") != null
-            ? `${JSON.parse(localStorage.getItem("user")).token}`
-            : null,
+        Authorization: !user ? null : user.token,
       },
     });
     return instance;

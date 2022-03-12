@@ -136,9 +136,7 @@ export default {
       },
     };
   },
-  mounted() {
-    console.log(mutationContants);
-  },
+
   methods: {
     submitForm() {
       this.$refs.form.validate(async (valid) => {

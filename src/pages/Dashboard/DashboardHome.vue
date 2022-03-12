@@ -1,10 +1,13 @@
 <template>
   <div class="dashboard__page dashboard-index">
-    <DashboardStat />
+    <DashboardStat :stats="accountStats" title="Account Metrics" />
+    <DashboardStat :stats="stats" title="Dashboard Metrics" />
 
     <div class="dashboard__grid__item">
       <div class="item__left table__wrapper">
-        <div class="grid__title">Recent Activities</div>
+        <div class="grid__title">
+          <h2>Recent Activities</h2>
+        </div>
 
         <el-table :data="tableData" style="width: 100%">
           <el-table-column prop="user" label="User" width="180">
@@ -40,7 +43,10 @@
       </div>
 
       <div class="item__right events__wrapper">
-        <div class="grid__title">Upcoming Events</div>
+        <div class="grid__title">
+          <h2>Upcoming Events</h2>
+        </div>
+
         <ul class="dashboard__events">
           <li
             :style="getEventColors(idx)"
@@ -68,6 +74,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   components: {
     DashboardStat: () => import("@/components/Dashboard/DashboardStat"),
@@ -78,6 +86,9 @@ export default {
       events: [],
       eventColors: ["#0581FC", "#E12B58", "#21A266", "#D35230", "#E0AA34"],
     };
+  },
+  computed: {
+    ...mapState("user", ["stats", "accountStats"]),
   },
   methods: {
     getEventColors(idx) {
@@ -109,10 +120,42 @@ export default {
         time: `${idx + 1}0:00`,
       }));
     },
+    getAccountStats() {
+      return this.$api.get("/account-stats");
+    },
+    getStats() {
+      return this.$api.get("/stats");
+    },
+    async fetchStats() {
+      try {
+        const [accountStatsRes, statsRes] = await Promise.allSettled([
+          this.getAccountStats(),
+          this.getStats(),
+        ]);
+
+        if (accountStatsRes.status === "fulfilled") {
+          this.$store.commit(
+            this.$mutationConstants.dashboard.SET_ACCOUNT_STATS,
+            accountStatsRes.value
+          );
+        }
+        if (statsRes.status === "fulfilled") {
+          this.$store.commit(
+            this.$mutationConstants.dashboard.SET_STATS,
+            statsRes.value
+          );
+        }
+      } catch (err) {
+        if (err) {
+          console.log(err);
+        }
+      }
+    },
   },
   mounted() {
     this.generateTableData();
     this.generateEvents();
+    // this.fetchStats();
   },
 };
 </script>
@@ -126,9 +169,7 @@ export default {
   gap: 1rem;
 
   .grid__title {
-    font-size: 1.2rem;
     margin-bottom: 2rem;
-    font-weight: 500;
   }
 
   .table__wrapper {

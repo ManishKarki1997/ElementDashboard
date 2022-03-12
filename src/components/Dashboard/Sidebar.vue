@@ -255,7 +255,7 @@ export default {
   mounted() {
     const lsTheme = localStorage.getItem("ELEMENT_DASHBOARD_THEME");
     this.isDarkMode = !lsTheme ? false : lsTheme === "dark" ? true : false;
-    console.log(window.localStorage.getItem("ELEMENT_DASHBOARD_THEME"));
+
     this.setThemeClass(this.isDarkMode);
   },
 };
