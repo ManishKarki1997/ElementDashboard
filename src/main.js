@@ -22,6 +22,11 @@ import "./assets/styles/main.scss";
 import "element-ui/lib/theme-chalk/index.css";
 
 import router from "./router";
+import store from "./store";
+
+// vue prototypes registration
+import api from "./utils/api";
+Vue.prototype.$api = api;
 
 Vue.use(ElementUI, {
   locale,
@@ -33,5 +38,6 @@ Vue.config.productionTip = false;
 
 new Vue({
   router,
+  store,
   render: (h) => h(App),
 }).$mount("#app");

@@ -25,11 +25,18 @@
         </div>
 
         <el-form :rules="rules" ref="form" :model="loginData">
-          <el-form-item label="Email" prop="email">
+          <!-- <el-form-item label="Email" prop="email">
             <el-input
               type="email"
               v-model="loginData.email"
               placeholder="Email"
+            ></el-input>
+          </el-form-item> -->
+          <el-form-item label="Username" prop="username">
+            <el-input
+              type="text"
+              v-model="loginData.username"
+              placeholder="Username"
             ></el-input>
           </el-form-item>
           <el-form-item label="Password" prop="password">
@@ -65,6 +72,8 @@
 <script>
 import GetStartedNavbar from "../components/Navbar/GetStartedNavbar.vue";
 
+const { mutations: mutationContants } = require("@/constants");
+
 export default {
   components: {
     GetStartedNavbar,
@@ -73,10 +82,28 @@ export default {
     return {
       isLoggingIn: false,
       loginData: {
+        username: "worckhub",
         email: "",
-        password: "",
+        password: "password",
       },
       rules: {
+        username: [
+          {
+            required: true,
+            message: "Please enter your username",
+            trigger: "blur",
+          },
+          {
+            min: 8,
+            message: "Username must be a minimum of 8 characters long",
+            trigger: "blur",
+          },
+          {
+            min: 8,
+            message: "Username must not be a more than 16 characters long",
+            trigger: "blur",
+          },
+        ],
         email: [
           {
             required: true,
@@ -109,20 +136,42 @@ export default {
       },
     };
   },
+  mounted() {
+    console.log(mutationContants);
+  },
   methods: {
     submitForm() {
-      this.$refs.form.validate((valid) => {
+      this.$refs.form.validate(async (valid) => {
         if (valid) {
-          this.isLoggingIn = true;
+          try {
+            this.isLoggingIn = true;
+            const res = await this.$api.post("/login", this.loginData);
+            this.$store.commit(mutationContants.user.SET_USER, res);
 
-          setTimeout(() => {
             this.$message({
               message: "Logged in successfully",
               type: "success",
             });
             this.resetForm();
+
+            setTimeout(() => {
+              this.$router.push("/app");
+            }, 1000);
+          } catch (err) {
+            console.log(err, err.response);
+            let errorMessage = "Something went wrong";
+
+            if (err?.response) {
+              errorMessage = err?.response?.data?.message;
+            }
+            this.$notify({
+              title: "Something went wrong",
+              message: errorMessage,
+              type: "error",
+            });
+          } finally {
             this.isLoggingIn = false;
-          }, 1500);
+          }
         } else {
           this.$notify({
             title: "Invalid Credentials",

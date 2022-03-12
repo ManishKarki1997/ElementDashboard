@@ -6,6 +6,9 @@
     </div>
 
     <div class="header__right">
+      <div @click="$router.push('/login')" class="header__item icon__button">
+        <i class="el-icon-stopwatch"></i>
+      </div>
       <div class="header__item icon__button">
         <el-badge is-dot class="item">
           <i class="el-icon-chat-line-round"></i>
