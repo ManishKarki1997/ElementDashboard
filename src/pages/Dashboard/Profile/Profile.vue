@@ -97,6 +97,17 @@ export default {
     align-items: center;
     gap: $spacing-8px;
     margin-bottom: 0;
+
+    svg {
+      @include themed() {
+        color: t($text-primary);
+      }
+    }
+    &.is-active {
+      svg {
+        color: white;
+      }
+    }
   }
 }
 

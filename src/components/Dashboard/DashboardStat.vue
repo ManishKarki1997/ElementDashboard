@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard__stats">
     <div class="header">
-      <h2>{{ title }}</h2>
+      <h3>{{ title }}</h3>
     </div>
 
     <div class="dashboard__grid">

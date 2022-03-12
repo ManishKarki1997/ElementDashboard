@@ -6,7 +6,7 @@
     <div class="dashboard__grid__item">
       <div class="item__left table__wrapper">
         <div class="grid__title">
-          <h2>Recent Activities</h2>
+          <h3>Recent Activities</h3>
         </div>
 
         <el-table :data="tableData" style="width: 100%">
@@ -44,7 +44,7 @@
 
       <div class="item__right events__wrapper">
         <div class="grid__title">
-          <h2>Upcoming Events</h2>
+          <h3>Upcoming Events</h3>
         </div>
 
         <ul class="dashboard__events">
