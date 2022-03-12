@@ -8,6 +8,22 @@ export default [
     component: () => import("../pages/Home"),
   },
   {
+    path: "/login",
+    name: "Login",
+    meta: {
+      name: "Login",
+    },
+    component: () => import("../pages/Login"),
+  },
+  {
+    path: "/register",
+    name: "Register",
+    meta: {
+      name: "Register",
+    },
+    component: () => import("../pages/Register"),
+  },
+  {
     path: "/app",
     name: "Dashboard",
     meta: {
