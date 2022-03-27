@@ -5,26 +5,48 @@
         <el-tooltip
           class="item"
           effect="dark"
-          :content="user.verified ? 'Verified' : 'Unverified'"
+          :content="
+            user.is_email_verified ? 'Email Verified' : 'Email Unverified'
+          "
           placement="top-start"
         >
           <el-badge
             is-dot
             class="item"
-            :type="user.verified ? 'success' : 'danger'"
+            :type="user.is_email_verified ? 'success' : 'danger'"
           >
             <el-avatar
+              v-if="user.user_profile && user.user_profile.avatar"
               shape="square"
               size="large"
-              :src="`https://avatars.dicebear.com/api/adventurer/${user.name}.svg`"
+              :src="`${apiUrl}/${user.user_profile.avatar}`"
+            ></el-avatar>
+
+            <el-avatar
+              v-else
+              shape="square"
+              size="large"
+              :src="`https://avatars.dicebear.com/api/adventurer/${
+                user.user_profile ? user.user_profile.first_name : user._id
+              }.svg`"
             ></el-avatar>
           </el-badge>
         </el-tooltip>
       </div>
 
       <div class="user__info">
-        <h4 class="user__name">{{ user.name }}</h4>
-        <p class="user__subtitle small__secondary">{{ user.role }}</p>
+        <template>
+          <h4 v-if="user.user_profile" class="user__name">
+            {{ user.user_profile.first_name }} {{ user.user_profile.last_name }}
+          </h4>
+          <h4 v-else class="user__name">
+            {{ user.email }}
+          </h4>
+        </template>
+
+        <p class="user__subtitle small__secondary capitalize">
+          {{ user.default_role === "both" ? "SuperAdmin" : user.default_role }}
+        </p>
       </div>
     </div>
 
@@ -85,6 +107,7 @@ export default {
         GOTO_PROFILE: "GOTO_PROFILE",
         BLOCK_USER: "BLOCK_USER",
       },
+      apiUrl: process.env.VUE_APP_API_URL,
     };
   },
   computed: {

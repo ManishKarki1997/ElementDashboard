@@ -1,7 +1,12 @@
 .cursor_pointer {
   cursor: pointer;
 }
-
+.capitalize {
+  text-transform: capitalize;
+}
+.uppercase {
+  text-transform: uppercase;
+}
 .flex {
   display: flex;
 }

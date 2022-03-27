@@ -27,8 +27,15 @@ import store from "./store";
 // vue prototypes registration
 import api from "./utils/api";
 import mutationConstants from "./constants/mutations";
+import dateFns from "./utils/dateFns";
+
 Vue.prototype.$api = api;
 Vue.prototype.$mutationConstants = mutationConstants;
+
+const utils = {
+  dateFns,
+};
+Vue.prototype.$utils = utils;
 
 Vue.use(ElementUI, {
   locale,

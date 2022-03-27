@@ -14,5 +14,11 @@
     display: flex;
     align-items: center;
     gap: 1rem;
+    max-width: 90%;
+    word-break: break-all;
+
+    .el-avatar img {
+      width: 100% !important;
+    }
   }
 }

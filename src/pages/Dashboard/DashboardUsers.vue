@@ -45,7 +45,7 @@
         <div class="user__grid__wrapper">
           <UserCompactCard
             v-for="(user, idx) in users"
-            :key="user.name + idx"
+            :key="user._id"
             :user="user"
             :idx="idx"
             :disableAnimation="false"
@@ -53,64 +53,92 @@
         </div>
 
         <LoadMoreButton
+          v-if="!hasNoMoreData"
           @loadMore="handleLoadMoreData"
           :loading="isLoadingMoreData"
         />
       </template>
-
+      <!-- <pre>{{ paginatedUsersData }}</pre> -->
       <template v-if="activeUsersTab === 'TABLE'">
         <div class="table__wrapper">
-          <el-table :data="paginatedUsersData" style="width: 100%">
-            <el-table-column prop="name" label="User" width="300">
+          <el-table
+            v-loading="isLoadingUsers"
+            :data="paginatedUsersData"
+            style="width: 100%"
+            @sort-change="handleSortChange"
+          >
+            <el-table-column prop="user_profile" label="User" width="300">
               <template slot-scope="scope">
                 <div class="horizontal__center gap-8">
                   <el-avatar
+                    v-if="scope.row.user_profile.avatar"
                     shape="square"
                     size="large"
-                    :src="`https://avatars.dicebear.com/api/adventurer/${scope.row.name}.svg`"
+                    :src="`${apiUrl}/${scope.row.user_profile.avatar}`"
                   ></el-avatar>
 
-                  <router-link to="/app/profile/starscream">{{
-                    scope.row.name
-                  }}</router-link>
+                  <el-avatar
+                    v-else
+                    shape="square"
+                    size="large"
+                    :src="`https://avatars.dicebear.com/api/adventurer/${
+                      scope.row.user_profile
+                        ? scope.row.user_profile.first_name
+                        : scope.row.user_profile._id
+                    }.svg`"
+                  ></el-avatar>
+
+                  <router-link
+                    v-if="scope.row.user_profile.first_name"
+                    to="/app/profile/starscream"
+                    >{{ scope.row.user_profile.first_name }}
+                    {{ scope.row.user_profile.last_name }}</router-link
+                  >
+
+                  <router-link v-else to="/app/profile/starscream"
+                    >{{ scope.row.user_profile.email }}
+                  </router-link>
                 </div>
               </template>
             </el-table-column>
 
-            <el-table-column prop="role" label="Role">
+            <el-table-column sortable prop="default_role" label="Role">
               <template slot-scope="scope">
-                <h5>{{ scope.row.role }}</h5>
+                <h5 class="uppercase">{{ scope.row.default_role }}</h5>
               </template>
             </el-table-column>
 
-            <el-table-column prop="verified" label="Verification">
+            <el-table-column
+              sortable
+              prop="is_email_verified"
+              label="Email Verified"
+            >
               <template slot-scope="scope">
                 <el-tag
                   size="small"
-                  :type="scope.row.verified ? 'primary' : 'danger'"
+                  :type="scope.row.is_email_verified ? 'primary' : 'danger'"
                   effect="dark"
                 >
-                  {{ scope.row.verified ? "Verified" : "Unverified" }}
+                  {{ scope.row.is_email_verified ? "Verified" : "Unverified" }}
                 </el-tag>
               </template>
             </el-table-column>
 
-            <el-table-column prop="joinedDate" label="Joined Date">
+            <el-table-column sortable prop="created_at" label="Joined At">
               <template slot-scope="scope">
-                <h5>{{ scope.row.joinedDate }}</h5>
+                <h5>{{ $utils.dateFns.formatDate(scope.row.created_at) }}</h5>
               </template>
             </el-table-column>
 
-            <el-table-column prop="rate" label="Ratings" width="180">
+            <el-table-column prop="tier" label="Tier">
               <template slot-scope="scope">
-                <el-rate
-                  v-model="scope.row.rating"
-                  disabled
-                  show-score
-                  text-color="#ff9900"
-                  score-template="{value}"
+                <el-tag
+                  type="primary"
+                  size="small"
+                  effect="plain"
+                  class="capitalize"
+                  >{{ scope.row.tier }}</el-tag
                 >
-                </el-rate>
               </template>
             </el-table-column>
 
@@ -152,13 +180,12 @@
               </template>
             </el-table-column>
           </el-table>
-
           <el-pagination
             class="pagination"
             @current-change="onTablePageChange"
             background
             layout="prev, pager, next"
-            :total="users.length"
+            :total="usersTablePaginationInfo.totalSize"
           >
           </el-pagination>
         </div>
@@ -175,7 +202,10 @@ export default {
   },
   data() {
     return {
-      users: [],
+      users: null,
+      isLoadingUsers: false,
+      hasNoMoreData: false,
+      searchData: {},
       filters: [
         {
           formName: "verificationStatus",
@@ -212,7 +242,7 @@ export default {
         verificationStatus: "",
         joinedDate: "",
       },
-      activeUsersTab: "GRID",
+      activeUsersTab: "TABLE",
       tableDropdownCommands: {
         QUICK_VIEW_PROFILE: "QUICK_VIEW_PROFILE",
         GOTO_PROFILE: "GOTO_PROFILE",
@@ -220,14 +250,18 @@ export default {
       },
       usersTablePaginationInfo: {
         activeTablePage: 1,
-        pageSize: 10,
+        pageSize: 5,
+        totalSize: 10,
       },
       isLoadingMoreData: false,
+      apiUrl: process.env.VUE_APP_API_URL,
     };
   },
   computed: {
     paginatedUsersData() {
-      return this.users.slice(
+      if (!this.users) return [];
+
+      const sliced = this.users.slice(
         this.usersTablePaginationInfo.pageSize *
           this.usersTablePaginationInfo.activeTablePage -
           this.usersTablePaginationInfo.pageSize,
@@ -235,9 +269,34 @@ export default {
         this.usersTablePaginationInfo.pageSize *
           this.usersTablePaginationInfo.activeTablePage
       );
+
+      const mapped = sliced.map((u) => ({
+        ...u,
+        user_profile: u.user_profile
+          ? {
+              ...u.user_profile,
+              email: u.email,
+              _id: u._id,
+              default_role: u.default_role,
+            }
+          : {
+              email: u.email,
+              _id: u._id,
+              default_role: u.default_role,
+            },
+      }));
+
+      return mapped;
     },
   },
   methods: {
+    handleSortChange(data) {
+      const { prop, order } = data;
+
+      this.searchData.sort_order = order;
+      this.searchData.sort_field = prop;
+      this.fetchUsers(true);
+    },
     addMoreUsers(amount = 20) {
       Array.from(Array(amount).keys()).forEach((idx) => {
         this.users.push({
@@ -250,8 +309,15 @@ export default {
         });
       });
     },
+
     onTablePageChange(page) {
+      if (this.hasNoMoreData) return;
+
+      console.log(this.usersTablePaginationInfo.activeTablePage, page);
+      if (this.usersTablePaginationInfo.activeTablePage >= page) return;
+
       this.usersTablePaginationInfo.activeTablePage = page;
+      this.fetchUsers();
     },
     selectActiveUsersTab(selected) {
       this.activeUsersTab = selected;
@@ -275,17 +341,77 @@ export default {
     onSubmit() {
       console.log("submit!");
     },
-    handleLoadMoreData() {
-      this.isLoadingMoreData = true;
+    async handleLoadMoreData() {
+      try {
+        this.isLoadingMoreData = true;
 
-      setTimeout(() => {
-        this.addMoreUsers();
+        this.usersTablePaginationInfo.activeTablePage =
+          this.usersTablePaginationInfo.activeTablePage + 1;
+
+        await this.fetchUsers();
+      } catch (err) {
+        if (err) {
+          this.$notify({
+            title: "Something went wrong",
+            message: "Couldn't fetch more users",
+            type: "error",
+          });
+        }
+      } finally {
         this.isLoadingMoreData = false;
-      }, 1000);
+      }
+    },
+    async fetchUsers(replaceExisting = false) {
+      try {
+        if (this.isLoadingUsers) return;
+
+        this.isLoadingUsers = true;
+
+        const res = await this.$api.getWithPayload(
+          `/users?limit=${this.usersTablePaginationInfo.pageSize}&page=${this.usersTablePaginationInfo.activeTablePage}`,
+          {
+            queries: {
+              ...this.queries,
+            },
+          }
+        );
+
+        this.usersTablePaginationInfo.totalSize = res.total;
+        this.usersTablePaginationInfo.pageSize = res.limit;
+        this.usersTablePaginationInfo.activeTablePage = res.page;
+
+        if (res.docs.length === 0) {
+          this.hasNoMoreData = true;
+
+          // step back one page otherwise, the table will show empty
+          this.usersTablePaginationInfo.activeTablePage =
+            this.usersTablePaginationInfo.activeTablePage - 1;
+          return;
+        }
+        if (!replaceExisting && this.users) {
+          this.users = [...this.users, ...res.docs];
+        } else {
+          this.users = [...res.docs];
+        }
+      } catch (err) {
+        console.log(err, err?.response);
+      } finally {
+        this.isLoadingUsers = false;
+      }
     },
   },
   mounted() {
-    this.addMoreUsers();
+    // this.addMoreUsers();
+  },
+  watch: {
+    "$route.query": {
+      immediate: true,
+      handler(query) {
+        this.searchData.default_role =
+          query?.role === "admin" ? "both" : query?.role;
+        this.fetchUsers();
+      },
+    },
   },
 };
 </script>
