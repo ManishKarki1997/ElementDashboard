@@ -148,9 +148,14 @@ export default {
               path: "/app/gigs/create/gig-overview",
             },
             {
-              name: "All Gigs",
+              name: "Verified Gigs",
               iconName: "el-icon-box",
-              path: "/app/gigs",
+              path: "/app/gigs?status=verified",
+            },
+            {
+              name: "Uncerified Gigs",
+              iconName: "el-icon-box",
+              path: "/app/gigs?status=unverified",
             },
           ],
         },

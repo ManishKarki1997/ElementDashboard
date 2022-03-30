@@ -84,10 +84,10 @@ export default {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  padding: 1rem;
 
   @include themed() {
     background-color: t($bg-secondary);
-    padding: 0 1rem;
   }
   @include radius();
   @include box-shadow();

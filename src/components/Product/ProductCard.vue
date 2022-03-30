@@ -5,7 +5,11 @@
     class="product__card"
   >
     <div class="product__backdrop">
-      <img :src="product.productImage" alt="Product Image" />
+      <!-- <img :src="gig.productImage" alt="Product Image" /> -->
+      <img
+        src="https://images3.alphacoders.com/119/thumb-1920-1191196.jpg"
+        alt="Product Image"
+      />
       <div class="overlay"></div>
 
       <el-button
@@ -19,17 +23,23 @@
 
     <div class="product__content">
       <div class="product__seller__info">
+        <!-- <el-avatar
+          shape="circle"
+          :size="56"
+          fit="cover"
+          :src="gig.sellerImage"
+        ></el-avatar> -->
         <el-avatar
           shape="circle"
           :size="56"
           fit="cover"
-          :src="product.sellerImage"
+          src="https://images3.alphacoders.com/119/thumb-1920-1191196.jpg"
         ></el-avatar>
       </div>
 
-      <p class="subtitle small__secondary">{{ product.categoryName }}</p>
+      <p class="subtitle small__secondary">{{ gig.category.name }}</p>
       <div class="product__name__wrapper">
-        <h4 class="product__name">{{ product.productName }}</h4>
+        <h4 class="product__name">{{ gig.title }}</h4>
 
         <el-dropdown
           @command="handleDropdownCommand"
@@ -66,21 +76,21 @@
       </div>
 
       <div class="product__pricing">
-        <h2>${{ product.price }}</h2>
+        <h2>${{ gig.price }}</h2>
       </div>
 
       <div class="product__meta__info horizontal__center gap-8">
         <div class="icon__item">
           <font-awesome-icon :icon="['far', 'eye']" />
 
-          <p class="views">{{ product.views }}k</p>
+          <p class="views">{{ gig.views }}k</p>
         </div>
         <div class="icon__item">
           <p class="bullet">&bull;</p>
         </div>
         <div class="icon__item">
           <font-awesome-icon :icon="['far', 'star']" />
-          <p class="review__count">{{ product.ratings }}</p>
+          <p class="review__count">{{ gig.ratings }}</p>
         </div>
       </div>
     </div>
@@ -94,7 +104,7 @@ export default {
       type: Number,
       default: 0,
     },
-    product: {
+    gig: {
       type: Object,
       required: true,
     },
@@ -180,6 +190,8 @@ export default {
       border: none;
       background-color: #808191a6;
       border-radius: 50%;
+      min-width: 30px;
+      min-height: 40px;
       width: 30px;
       height: 40px;
       display: flex;

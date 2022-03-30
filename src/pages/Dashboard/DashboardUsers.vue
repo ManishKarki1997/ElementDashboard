@@ -250,7 +250,7 @@ export default {
       },
       usersTablePaginationInfo: {
         activeTablePage: 1,
-        pageSize: 5,
+        pageSize: 2,
         totalSize: 10,
       },
       isLoadingMoreData: false,
@@ -379,7 +379,7 @@ export default {
         this.usersTablePaginationInfo.totalSize = res.total;
         this.usersTablePaginationInfo.pageSize = res.limit;
         this.usersTablePaginationInfo.activeTablePage = res.page;
-
+        console.log(res);
         if (res.docs.length === 0) {
           this.hasNoMoreData = true;
 
@@ -389,7 +389,12 @@ export default {
           return;
         }
         if (!replaceExisting && this.users) {
-          this.users = [...this.users, ...res.docs];
+          res.docs.forEach((u) => {
+            if (this.users.find((usr) => usr._id === u._id)) return;
+
+            this.users.push(u);
+          });
+          // this.users = [...this.users, ...res.docs];
         } else {
           this.users = [...res.docs];
         }

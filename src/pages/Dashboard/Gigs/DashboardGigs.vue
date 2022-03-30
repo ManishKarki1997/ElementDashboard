@@ -10,17 +10,14 @@
     <template v-if="activeViewTab === 'GRID'">
       <div class="products__grid">
         <ProductCard
-          v-for="(product, idx) in products"
-          :key="product.id"
-          :product="product"
+          v-for="(gig, idx) in gigs"
+          :key="gig._id"
+          :gig="gig"
           :idx="idx"
           :disableAnimation="false"
         />
       </div>
-      <LoadMoreButton
-        @loadMore="handleLoadMoreData"
-        :loading="isLoadingMoreData"
-      />
+      <LoadMoreButton @loadMore="handleLoadMore" :loading="isLoadingMoreData" />
     </template>
 
     <template v-if="activeViewTab === 'TABLE'">
@@ -192,6 +189,12 @@ export default {
         ratings: "",
       },
       activeViewTab: "GRID",
+      paginationInfo: {
+        currentPage: 1,
+        limit: 1,
+        totalSize: 10,
+        hasNext: true,
+      },
       productsTablePaginationInfo: {
         activeTablePage: 1,
         pageSize: 10,
@@ -200,6 +203,9 @@ export default {
         ADD_TO_CART: "ADD_TO_CART",
       },
       isLoadingMoreData: false,
+
+      // new implementation
+      gigs: null,
     };
   },
   computed: {
@@ -214,7 +220,75 @@ export default {
       );
     },
   },
+  watch: {
+    "$route.query": {
+      immediate: true,
+      handler() {
+        this.fetchGigs();
+      },
+    },
+  },
   methods: {
+    async handleLoadMore() {
+      try {
+        this.isLoadingMoreData = true;
+        this.paginationInfo.currentPage = this.paginationInfo.currentPage + 1;
+        await this.fetchGigs({
+          replaceExisting: false,
+        });
+      } catch (err) {
+        err;
+      } finally {
+        this.isLoadingMoreData = false;
+      }
+    },
+    async fetchGigs(
+      options = {
+        replaceExisting: true,
+        setDataYourself: true,
+      }
+    ) {
+      try {
+        const query = {
+          // limit: this.paginationInfo.limit,
+          // page: this.paginationInfo.currentPage,
+          status: "",
+        };
+        const status = this.$route.query?.status || "verified";
+
+        query.status = status;
+
+        const res = await this.$api.getWithPayload(
+          `/gigs?status=${status}&page=${this.paginationInfo.currentPage}`,
+          query
+        );
+
+        this.paginationInfo.limit = res.limit;
+        this.paginationInfo.totalSize = res.total;
+        this.paginationInfo.hasNext =
+          res.docs.length >= this.paginationInfo.limit;
+
+        if (options.replaceExisting) {
+          this.gigs = res.docs;
+        } else if (!options.replaceExisting && options.setDataYourself) {
+          if (this.gigs) {
+            res.docs.forEach((g) => {
+              if (this.gigs.find((gig) => gig._id === g._id)) {
+                return;
+              }
+
+              this.gigs.push(g);
+            });
+          }
+        }
+
+        console.log(res);
+        return res;
+      } catch (err) {
+        err;
+        throw err;
+      }
+    },
     onTablePageChange(page) {
       this.productsTablePaginationInfo.activeTablePage = page;
     },
