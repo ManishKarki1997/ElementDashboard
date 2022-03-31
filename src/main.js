@@ -28,12 +28,14 @@ import store from "./store";
 import api from "./utils/api";
 import mutationConstants from "./constants/mutations";
 import dateFns from "./utils/dateFns";
+import { getAvatarLink } from "./utils/appUtils";
 
 Vue.prototype.$api = api;
 Vue.prototype.$mutationConstants = mutationConstants;
 
 const utils = {
   dateFns,
+  getAvatarLink,
 };
 Vue.prototype.$utils = utils;
 

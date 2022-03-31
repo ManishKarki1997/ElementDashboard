@@ -24,6 +24,7 @@ import {
   faBriefcase,
   faEnvelopeOpen,
   faSortAmountUp,
+  faCartArrowDown,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -41,6 +42,7 @@ import {
   faClone,
   faStickyNote,
   faImage,
+  faQuestionCircle,
 } from "@fortawesome/free-regular-svg-icons";
 
 export default [
@@ -83,4 +85,6 @@ export default [
   faImage,
   faEnvelopeOpen,
   faSortAmountUp,
+  faCartArrowDown,
+  faQuestionCircle,
 ];

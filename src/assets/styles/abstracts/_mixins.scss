@@ -33,6 +33,13 @@
   border-radius: $params;
 }
 
+@mixin line-clamp($num: 1) {
+  display: -webkit-box;
+  -webkit-line-clamp: #{$num};
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 @mixin all-center() {
   display: flex;
   align-items: center;

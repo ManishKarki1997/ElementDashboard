@@ -8,25 +8,12 @@
     />
 
     <template v-if="activeViewTab === 'GRID'">
-      <div class="products__grid">
-        <div
-          style="padding: 1rem"
+      <div class="orders__grid">
+        <OrderCard
           v-for="order in cardsOrders"
           :key="order._id"
-        >
-          <h4 v-if="order.package && order.package.title !== undefined">
-            {{ order.package.title }}
-          </h4>
-          <h4 v-else>Placeholder</h4>
-          <!-- <p>{{ order.package.description }}</p> -->
-        </div>
-        <!-- <ProductCard
-          v-for="(gig, idx) in orders"
-          :key="gig._id"
-          :gig="gig"
-          :idx="idx"
-          :disableAnimation="false"
-        /> -->
+          :order="order"
+        />
       </div>
       <LoadMoreButton
         v-if="cardsPaginationInfo.hasNext"
@@ -72,12 +59,13 @@
 
           <el-table-column prop="status" label="Status">
             <template slot-scope="scope">
-              <h4>{{ scope.row.status }}</h4>
-              <!-- <div class="horizontal__center gap-4">
-                <font-awesome-icon :icon="['far', 'eye']" />
-
-                <p class="views">{{ scope.row.views }}k</p>
-              </div> -->
+              <el-tag
+                class="order__status"
+                size="medium"
+                effect="dark"
+                :type="orderStatusesMap[scope.row.status].type"
+                >{{ orderStatusesMap[scope.row.status].name }}</el-tag
+              >
             </template>
           </el-table-column>
 
@@ -137,14 +125,17 @@
 </template>
 
 <script>
+import { keyValueMaps } from "@/constants";
+
 export default {
   components: {
-    // ProductCard: () => import("@/components/Product/ProductCard"),
+    OrderCard: () => import("@/components/Orders/OrderCard"),
     FiltersHeader: () => import("@/components/Dashboard/FiltersHeader"),
     LoadMoreButton: () => import("@/components/Common/LoadMoreButton"),
   },
   data() {
     return {
+      orderStatusesMap: keyValueMaps.orderStatusMaps,
       products: [],
       productFilters: [
         {
@@ -402,9 +393,9 @@ export default {
 .pagination {
   margin-top: $spacing-2;
 }
-.products__grid {
+.orders__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 3rem 1rem;
 }
 </style>
