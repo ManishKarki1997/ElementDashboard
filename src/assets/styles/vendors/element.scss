@@ -86,3 +86,20 @@
 .el-button.el-button--danger {
   color: white;
 }
+
+// skeleton
+.el-skeleton.is-animated .el-skeleton__item {
+  @include themed() {
+    background-color: t($bg-secondary) !important;
+  }
+
+  @include themed() {
+    background-image: linear-gradient(
+      90deg,
+      t($skeleton-1) 25%,
+      t($skeleton-2) 37%,
+      t($skeleton-3) 63%
+    ) !important;
+  }
+}
+// end skeleton

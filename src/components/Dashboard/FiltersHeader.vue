@@ -9,11 +9,15 @@
             :span="Math.floor(24 / filters.length)"
           >
             <el-form-item :label="filter.name">
+              <!-- v-model="filtersForm[filter.formName]" -->
               <el-select
-                v-model="filtersForm[filter.formName]"
+                @change="onSelectChange($event, filter)"
                 clearable
+                :filterable="filter.isFilterable"
+                :loading="filter.isFilterable && !filter.hasFetchedData"
                 :placeholder="filter.name"
                 :label="filter.name"
+                :value="filtersForm[filter.formName]"
               >
                 <el-option
                   v-for="item in filter.options"
@@ -73,6 +77,13 @@ export default {
   methods: {
     selectActiveUsersTab(selected) {
       this.$emit("ITEM_VIEW_TAB_ACTIVE", selected);
+    },
+    onSelectChange($event, filter) {
+      this.$emit("ON_SELECT_CHANGE", {
+        name: filter.formName,
+        value: $event,
+        isTypeSort: filter?.isTypeSort,
+      });
     },
   },
 };
