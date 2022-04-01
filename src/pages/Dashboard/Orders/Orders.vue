@@ -18,8 +18,19 @@
           />
         </template>
 
-        <template v-else>
+        <template v-if="!gridOrders">
           <OrderCardSkeleton v-for="i in 8" :key="'order-card-skeleton-' + i" />
+        </template>
+
+        <template v-if="gridOrders && gridOrders.length === 0">
+          <el-empty :image-size="100">
+            <template #image>
+              <font-awesome-icon :icon="['fas', 'shopping-basket']" />
+            </template>
+            <template #description>
+              <p>Sorry, there are no orders available</p>
+            </template>
+          </el-empty>
         </template>
       </div>
       <LoadMoreButton
@@ -184,12 +195,24 @@ export default {
           name: "Status",
           options: [
             {
+              label: "All",
+              value: "all",
+            },
+            {
               label: "Contract accepted by hirer",
               value: "contract_accepted_by_hirer",
             },
             {
               label: "Requested",
               value: "requested",
+            },
+            {
+              label: "Completed",
+              value: "completed",
+            },
+            {
+              label: "Unresponded",
+              value: "unresponded",
             },
             {
               label: "Cancelled",
@@ -245,13 +268,21 @@ export default {
     "$route.query": {
       // immediate: true,
       handler() {
-        this.fetchOrders();
+        if (this.viewType === "GRID") {
+          this.gridOrders = null;
+        } else {
+          this.tableOrders = null;
+        }
+        this.setQueries();
+        this.fetchOrders({
+          replaceExisting: true,
+          setDataForBothView: true,
+        });
       },
     },
     categories: {
       immediate: true,
       handler(val) {
-        console.log(val);
         if (val) {
           this.productFilters = this.productFilters.map((f) =>
             f.formName !== "category_id"
@@ -279,6 +310,10 @@ export default {
   },
   methods: {
     onFiltersSelectChange({ name, value, isTypeSort }) {
+      console.log({
+        name,
+        value,
+      });
       if (isTypeSort) {
         this.filtersForm[name] = value;
         if (this.sortData[name] !== undefined) {
@@ -301,30 +336,51 @@ export default {
         }
       }
 
+      const queryToReplaceRoute = {};
+      Object.keys(this.queries).forEach((k) => {
+        if (this.queries[k]) {
+          queryToReplaceRoute[k] = this.queries[k];
+        }
+      });
+
+      this.$router.replace({
+        query: {
+          ...queryToReplaceRoute,
+          // [name]: value,
+        },
+      });
+
       this.fetchOrders({
+        setDataForBothView: true,
         replaceExisting: true,
         setDataYourself: true,
       });
     },
     setQueries() {
-      const { sort_field, sort_order } = this.$route.query;
+      const { sort_field, sort_order, status } = this.$route.query;
       // console.log(this.$route.query);
       let tempSortData = {};
 
       if (sort_field && sort_order) {
         tempSortData = {
           ...tempSortData,
-          // ...this.$route.query,
           sort_field,
           sort_order,
         };
       }
 
-      // Object.keys(this.filtersForm).forEach((k) => {
-      //   if (this.filtersForm[k]) {
-      //     tempSortData[k] = this.filtersForm[k];
-      //   }
-      // });
+      this.queries = {
+        ...this.queries,
+      };
+
+      if (status) {
+        tempSortData.status = status;
+        this.filtersForm.status = status;
+      } else {
+        delete tempSortData.status;
+        delete this.sortData.status;
+        this.filtersForm.status = "all";
+      }
 
       this.sortData = {
         ...this.sortData,
@@ -370,6 +426,7 @@ export default {
     },
     async fetchOrders(
       options = {
+        setDataForBothView: false,
         replaceExisting: true,
         setDataYourself: true,
         viewType: "GRID",
@@ -385,6 +442,7 @@ export default {
 
       const v = options.viewType || this.activeViewTab;
       const activeArrayKey = v === "TABLE" ? "tableOrders" : "gridOrders";
+      const inactiveArrayKey = v === "TABLE" ? "gridOrders" : "tableOrders";
 
       try {
         this.isLoading = true;
@@ -392,11 +450,7 @@ export default {
           limit: this[activePaginationKey].limit,
           page: this[activePaginationKey].currentPage,
           ...this.sortData,
-          // status: "",
         };
-        // const status = this.$route.query?.status || "all";
-
-        // searchData.status = status;
 
         const res = await this.$api.getWithPayload(
           `/orders?queries=${JSON.stringify(this.queries)}`,
@@ -413,6 +467,10 @@ export default {
 
         if (options.replaceExisting) {
           this[activeArrayKey] = res.docs;
+
+          if (options.setDataForBothView) {
+            this[inactiveArrayKey] = res.docs;
+          }
         } else if (!options.replaceExisting && options.setDataYourself) {
           if (this[activeArrayKey]) {
             // this[activeArrayKey] = [...this[activeArrayKey], ...res.docs];
@@ -427,9 +485,17 @@ export default {
               }
 
               this[activeArrayKey].push(g);
+
+              if (options.setDataForBothView) {
+                this[inactiveArrayKey].push(g);
+              }
             });
           } else {
-            this[activeArrayKey] = res.docs;
+            this[activeArrayKey] = [...res.docs];
+
+            if (options.setDataForBothView) {
+              this[inactiveArrayKey] = [...res.docs];
+            }
           }
         }
 
@@ -467,9 +533,9 @@ export default {
           view: "TABLE",
         });
       } else if (selectedView === "GRID" && !this.gridOrders) {
-        // this.fetchOrders({
-        //   view: "GRID",
-        // });
+        this.fetchOrders({
+          view: "GRID",
+        });
       }
     },
     handleDropdownCommand(command) {

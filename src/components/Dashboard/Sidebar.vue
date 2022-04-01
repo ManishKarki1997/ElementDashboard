@@ -167,22 +167,22 @@ export default {
             {
               name: "All Orders",
               iconName: "el-icon-shopping-cart-full",
-              path: "/app/orders",
+              path: "/app/orders?status=all",
             },
             {
               name: "Completed Orders",
               iconName: "el-icon-shopping-cart-full",
-              path: "/app/orders?type=completed-orders",
+              path: "/app/orders?status=completed",
             },
             {
               name: "Cancelled Orders",
               iconName: "el-icon-shopping-cart-full",
-              path: "/app/orders?type=cancelled-orders",
+              path: "/app/orders?status=cancelled",
             },
             {
               name: "Unresponded Orders",
               iconName: "el-icon-shopping-cart-full",
-              path: "/app/orders?type=unresponded-orders",
+              path: "/app/orders?status=unresponded",
             },
           ],
         },

@@ -11,6 +11,14 @@ const orderStatusMaps = {
     name: "Cancelled",
     type: "danger",
   },
+  completed: {
+    name: "Completed",
+    type: "success",
+  },
+  unresponded: {
+    name: "Unresponded",
+    type: "warning",
+  },
 };
 
 const keyValueMaps = {
