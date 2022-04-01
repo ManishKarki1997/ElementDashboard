@@ -1,9 +1,5 @@
 <template>
-  <el-skeleton
-    :animated="true"
-    class="order__card-skeleton"
-    style="width: 100%; max-width: 500px"
-  >
+  <el-skeleton :animated="true" class="order__card-skeleton">
     <template slot="template">
       <el-skeleton class="order__info-skeleton" variant="rect">
         <template slot="template">
@@ -33,16 +29,16 @@ export default {};
 
 <style lang="scss">
 .order__card-skeleton {
-  max-width: 550px;
+  max-width: 700px;
 
-  @media (max-width: 768px) {
-    max-width: 700px;
+  @include lg() {
+    max-width: 550px;
   }
 }
 .order__info-skeleton {
-  max-width: 500px;
+  max-width: 550px;
   width: 100%;
-  /* height: 180px; */
+
   @include themed() {
     background: t($bg-secondary);
     padding: 1rem;

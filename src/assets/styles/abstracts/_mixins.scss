@@ -23,6 +23,64 @@
   @return map-get($theme-map, $key);
 }
 
+// breakpoint system
+
+// extra extra small - 360px
+@mixin xxs {
+  @media (min-width: #{$xxs}) {
+    @content;
+  }
+}
+
+// extra small - 360px
+@mixin xs {
+  @media (min-width: #{$xs}) {
+    @content;
+  }
+}
+
+// small - 640px
+@mixin sm {
+  @media (min-width: #{$sm}) {
+    @content;
+  }
+}
+
+// medium - 768px
+@mixin md {
+  @media (min-width: #{$md}) {
+    @content;
+  }
+}
+
+// large - 1024px
+@mixin lg {
+  @media (min-width: #{$lg}) {
+    @content;
+  }
+}
+
+// extra large - 1280px
+@mixin xl {
+  @media (min-width: #{$xl}) {
+    @content;
+  }
+}
+
+// extra extra large - 1536px
+@mixin xxl {
+  @media (min-width: #{$xxl}) {
+    @content;
+  }
+}
+
+// Custom devices
+@mixin rwd($screen) {
+  @media (min-width: #{$screen}px) {
+    @content;
+  }
+}
+
 @mixin box-shadow($params: $shadow) {
   -webkit-box-shadow: $params;
   -moz-box-shadow: $params;

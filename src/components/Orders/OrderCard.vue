@@ -123,11 +123,12 @@ export default {
 
 <style lang="scss" scoped>
 .order__card {
-  max-width: 550px;
+  max-width: 700px;
 
-  @media (max-width: 768px) {
-    max-width: 700px;
+  @include lg() {
+    max-width: 550px;
   }
+
   .order__overview {
     .party__name {
       font-weight: 500;

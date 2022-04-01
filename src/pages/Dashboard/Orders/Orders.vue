@@ -372,7 +372,7 @@ export default {
       options = {
         replaceExisting: true,
         setDataYourself: true,
-        viewType: "CARDS",
+        viewType: "GRID",
       }
     ) {
       options.setDataYourself =
@@ -467,9 +467,9 @@ export default {
           view: "TABLE",
         });
       } else if (selectedView === "GRID" && !this.gridOrders) {
-        this.fetchOrders({
-          view: "GRID",
-        });
+        // this.fetchOrders({
+        //   view: "GRID",
+        // });
       }
     },
     handleDropdownCommand(command) {
