@@ -149,6 +149,8 @@ export default {
             type: "success",
           });
         });
+      } else if (command === this.userDropdownCommands.GOTO_PROFILE) {
+        this.$router.push(`/app/profile/${this.user.email}`);
       }
     },
   },

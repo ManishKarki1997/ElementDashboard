@@ -4,6 +4,7 @@
       :activeViewTab="activeViewTab"
       :filters="userFilters"
       :filtersForm="filtersForm"
+      :loadingStates="loadingFilterStates"
       @ITEM_VIEW_TAB_ACTIVE="onActiveViewTabSelected"
       @ON_SELECT_CHANGE="onFiltersSelectChange"
     />
@@ -58,28 +59,59 @@
               <div class="horizontal__center gap-8">
                 <!-- <pre>{{ scope.row }}</pre> -->
                 <el-avatar
+                  style="min-width: 40px"
+                  v-if="scope.row.user_profile"
                   shape="circle"
                   size="large"
                   :src="getAvatarLink(scope.row.user_profile.avatar)"
                 ></el-avatar>
 
-                <h4>
+                <el-avatar
+                  v-else
+                  style="min-width: 40px"
+                  shape="circle"
+                  size="large"
+                  :src="getAvatarLink(null)"
+                ></el-avatar>
+
+                <h4 v-if="scope.row.user_profile">
                   {{ scope.row.user_profile.first_name }}
                   {{ scope.row.user_profile.last_name }}
+                </h4>
+
+                <h4 v-else>
+                  {{ scope.row.email }}
                 </h4>
               </div>
             </template>
           </el-table-column>
 
-          <el-table-column :sortable="false" prop="title" label="Gig Title">
+          <el-table-column
+            :sortable="false"
+            prop="created_at"
+            label="Joined Date"
+          >
             <template slot-scope="scope">
-              <h5>{{ scope.row.title }}</h5>
+              <h5>{{ $utils.dateFns.formatDate(scope.row.created_at) }}</h5>
             </template>
           </el-table-column>
 
-          <el-table-column :sortable="false" prop="verified" label="Verified">
+          <el-table-column :sortable="false" prop="role" label="Role">
             <template slot-scope="scope">
-              <el-tag :type="scope.row.verified ? '' : 'danger'" effect="dark">
+              <h5>{{ scope.row.default_role }}</h5>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+            :sortable="false"
+            prop="is_email_verified"
+            label="Email Verified"
+          >
+            <template slot-scope="scope">
+              <el-tag
+                :type="scope.row.is_email_verified ? '' : 'danger'"
+                effect="dark"
+              >
                 {{ scope.row.verified ? "Verified" : "Unverified" }}
               </el-tag>
             </template>
@@ -87,37 +119,22 @@
 
           <el-table-column
             :sortable="false"
-            prop="delivery_days"
-            label="Delivery Days"
+            prop="admin_verified"
+            label="Admin Verified"
           >
             <template slot-scope="scope">
-              <h5>{{ scope.row.delivery_days }}</h5>
+              <el-tag
+                :type="scope.row.admin_verified ? '' : 'danger'"
+                effect="dark"
+              >
+                {{ scope.row.admin_verified ? "Verified" : "Unverified" }}
+              </el-tag>
             </template>
           </el-table-column>
 
-          <el-table-column
-            :sortable="false"
-            prop="views_count"
-            label="Total Views"
-          >
+          <el-table-column :sortable="false" prop="tier" label="Tier">
             <template slot-scope="scope">
-              <h5>{{ scope.row.views_count }}</h5>
-            </template>
-          </el-table-column>
-
-          <el-table-column :sortable="false" prop="sales" label="Total Sales">
-            <template slot-scope="scope">
-              <h5>{{ scope.row.sales }}</h5>
-            </template>
-          </el-table-column>
-
-          <el-table-column
-            :sortable="false"
-            prop="created_at"
-            label="Created At"
-          >
-            <template slot-scope="scope">
-              <h5>{{ $utils.dateFns.formatDate(scope.row.created_at) }}</h5>
+              <h5 class="capitalize">{{ scope.row.tier }}</h5>
             </template>
           </el-table-column>
 
@@ -136,7 +153,7 @@
                   slot="dropdown"
                 >
                   <el-dropdown-item
-                    :command="productDropdownCommands.TOGGLE_VERIFICATION"
+                    :command="userDropdownCommands.TOGGLE_VERIFICATION"
                     class="c__icon__dropdown__item"
                   >
                     <font-awesome-icon :icon="['fas', 'shopping-basket']" />
@@ -145,11 +162,11 @@
                   </el-dropdown-item>
 
                   <el-dropdown-item
-                    :command="productDropdownCommands.VIEW_GIG_INFO"
+                    :command="userDropdownCommands.GOTO_PROFILE"
                     class="c__icon__dropdown__item"
                   >
                     <font-awesome-icon :icon="['far', 'square']" />
-                    <span> View Gig </span>
+                    <span> View Profile </span>
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -173,6 +190,7 @@
 <script>
 import { mapState } from "vuex";
 import { keyValueMaps } from "@/constants";
+import debounce from "@/mixins/debounce";
 
 export default {
   components: {
@@ -182,25 +200,37 @@ export default {
     FiltersHeader: () => import("@/components/Dashboard/FiltersHeader"),
     LoadMoreButton: () => import("@/components/Common/LoadMoreButton"),
   },
+  mixins: [debounce],
   data() {
     return {
       orderStatusesMap: keyValueMaps.orderStatusMaps,
+      loadingFilterStates: {},
       userFilters: [
-        // {
-        //   isTypeSort: true,
-        //   formName: "created_at",
-        //   name: "Ordered Date",
-        //   options: [
-        //     {
-        //       label: "Latest",
-        //       value: "desc",
-        //     },
-        //     {
-        //       label: "Oldest",
-        //       value: "asc",
-        //     },
-        //   ],
-        // },
+        {
+          shouldShowLoading: true,
+          name: "Email",
+          type: "INPUT",
+          formName: "email",
+          placeholder: "Type user email",
+        },
+        {
+          formName: "default_role",
+          name: "Role",
+          options: [
+            {
+              label: "Worcker",
+              value: "worcker",
+            },
+            {
+              label: "Hirer",
+              value: "hirer",
+            },
+            {
+              label: "Organization",
+              value: "organization",
+            },
+          ],
+        },
         // {
         //   formName: "category_id",
         //   name: "Category",
@@ -236,7 +266,8 @@ export default {
         },
       ],
       filtersForm: {
-        created_at: "desc",
+        email: "",
+        default_role: "",
         category_id: "",
         tier: "",
       },
@@ -253,9 +284,9 @@ export default {
         limit: 10,
         totalSize: 10,
       },
-      productDropdownCommands: {
+      userDropdownCommands: {
         TOGGLE_VERIFICATION: "TOGGLE_VERIFICATION",
-        VIEW_GIG_INFO: "VIEW_GIG_INFO",
+        GOTO_PROFILE: "GOTO_PROFILE",
       },
       isLoading: false,
       isLoadingMoreData: false,
@@ -324,7 +355,7 @@ export default {
     // this.$store.dispatch("category/fetchCategories");
   },
   methods: {
-    onFiltersSelectChange({ name, value, isTypeSort }) {
+    onFiltersSelectChange({ name, value, isTypeSort, type, filter }) {
       if (isTypeSort) {
         this.filtersForm[name] = value;
         if (this.sortData[name] !== undefined) {
@@ -354,22 +385,53 @@ export default {
         }
       });
 
-      this.$router
-        .replace({
-          query: {
-            ...queryToReplaceRoute,
-            // [name]: value,
-          },
-        })
-        .catch((err) => {
-          err;
-        });
+      // console.log(type, name, value, this.filtersForm[name]);
 
-      this.fetchOrders({
-        setDataForBothView: true,
-        replaceExisting: true,
-        setDataYourself: true,
-      });
+      if (type === "INPUT") {
+        this.debounce(async () => {
+          this.loadingFilterStates = {
+            ...this.loadingFilterStates,
+            [filter.name]: true,
+          };
+
+          this.$router
+            .replace({
+              query: {
+                ...queryToReplaceRoute,
+              },
+            })
+            .catch((err) => {
+              err;
+            });
+
+          await this.fetchOrders({
+            setDataForBothView: true,
+            replaceExisting: true,
+            setDataYourself: true,
+          });
+
+          this.loadingFilterStates = {
+            ...this.loadingFilterStates,
+            [filter.name]: false,
+          };
+        }, 1000);
+      } else {
+        this.$router
+          .replace({
+            query: {
+              ...queryToReplaceRoute,
+            },
+          })
+          .catch((err) => {
+            err;
+          });
+
+        this.fetchOrders({
+          setDataForBothView: true,
+          replaceExisting: true,
+          setDataYourself: true,
+        });
+      }
     },
     setQueries() {
       const { sort_field, sort_order, default_role } = this.$route.query;
@@ -479,8 +541,6 @@ export default {
           searchData
         );
 
-        console.log(res.docs);
-
         this[activePaginationKey].limit = res.limit;
         this[activePaginationKey].totalSize = res.total;
 
@@ -562,9 +622,11 @@ export default {
         });
       }
     },
-    handleDropdownCommand(command) {
-      if (command === this.productDropdownCommands.TOGGLE_VERIFICATION) {
+    handleDropdownCommand(command, user) {
+      if (command === this.userDropdownCommands.TOGGLE_VERIFICATION) {
         console.log(command);
+      } else if (command === this.userDropdownCommands.GOTO_PROFILE) {
+        this.$router.push(`/app/profile/${user.email}`);
       }
     },
   },

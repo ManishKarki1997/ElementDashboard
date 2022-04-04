@@ -1,7 +1,8 @@
+1
 <template>
   <div class="filters__header">
     <div class="filters__wrapper horizontal__center gap-12">
-      <el-form ref="form" :model="form">
+      <el-form ref="form">
         <el-row :gutter="8">
           <el-col
             v-for="filter in filters"
@@ -9,8 +10,18 @@
             :span="Math.floor(24 / filters.length)"
           >
             <el-form-item :label="filter.name">
-              <!-- v-model="filtersForm[filter.formName]" -->
+              <el-input
+                :suffix-icon="
+                  loadingStates[filter.name] ? 'el-icon-loading' : undefined
+                "
+                v-model="vmodelFiltersForm[filter.name]"
+                v-if="filter.type === 'INPUT'"
+                :placeholder="filter.placeholder || filter.name"
+                @input="onChangeInput($event, filter)"
+              ></el-input>
+
               <el-select
+                v-if="filter.type === undefined"
                 @change="onSelectChange($event, filter)"
                 clearable
                 :filterable="filter.isFilterable"
@@ -65,24 +76,52 @@ export default {
       type: Object,
       required: true,
     },
+    loadingStates: {
+      type: Object,
+      required: false,
+      default: () => {},
+    },
   },
   data() {
     return {
       form: {
         verificationStatus: "",
         joinedDate: "",
+        email: "",
       },
+      vmodelFiltersForm: {},
     };
+  },
+  watch: {
+    filtersForm: {
+      immediate: true,
+      handler(value) {
+        this.vmodelFiltersForm = {
+          ...this.vmodelFiltersForm,
+          ...value,
+        };
+      },
+    },
   },
   methods: {
     selectActiveUsersTab(selected) {
       this.$emit("ITEM_VIEW_TAB_ACTIVE", selected);
+    },
+    onChangeInput(event, filter) {
+      this.$emit("ON_SELECT_CHANGE", {
+        name: filter.formName,
+        value: event,
+        isTypeSort: filter?.isTypeSort,
+        type: filter.type,
+        filter,
+      });
     },
     onSelectChange($event, filter) {
       this.$emit("ON_SELECT_CHANGE", {
         name: filter.formName,
         value: $event,
         isTypeSort: filter?.isTypeSort,
+        filter,
       });
     },
   },
