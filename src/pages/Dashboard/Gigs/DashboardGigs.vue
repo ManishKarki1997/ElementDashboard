@@ -2,81 +2,118 @@
   <div class="dashboard__page dashboard-settings">
     <FiltersHeader
       :activeViewTab="activeViewTab"
-      :filters="productFilters"
+      :filters="gigFilterse"
       :filtersForm="filtersForm"
       @ITEM_VIEW_TAB_ACTIVE="onActiveViewTabSelected"
+      @ON_SELECT_CHANGE="onFiltersSelectChange"
     />
 
     <template v-if="activeViewTab === 'GRID'">
-      <div class="products__grid">
-        <ProductCard
-          v-for="(gig, idx) in gigs"
-          :key="gig._id"
-          :gig="gig"
-          :idx="idx"
-          :disableAnimation="false"
-        />
+      <div class="orders__grid">
+        <template v-if="gridGigs">
+          <ProductCard v-for="gig in gridGigs" :key="gig._id" :gig="gig" />
+        </template>
+
+        <template v-if="!gridGigs">
+          <OrderCardSkeleton v-for="i in 8" :key="'order-card-skeleton-' + i" />
+        </template>
+
+        <template v-if="gridGigs && gridGigs.length === 0">
+          <el-empty :image-size="100">
+            <template #image>
+              <font-awesome-icon :icon="['fas', 'shopping-basket']" />
+            </template>
+            <template #description>
+              <p>Sorry, there are no orders available</p>
+            </template>
+          </el-empty>
+        </template>
       </div>
-      <LoadMoreButton @loadMore="handleLoadMore" :loading="isLoadingMoreData" />
+      <LoadMoreButton
+        v-if="cardsPaginationInfo.hasNext && gridGigs"
+        @loadMore="handleLoadMore"
+        :loading="isLoadingMoreData"
+      />
     </template>
 
     <template v-if="activeViewTab === 'TABLE'">
       <div class="table__wrapper">
-        <el-table :data="paginatedProductsData" style="width: 100%">
-          <el-table-column prop="productName" label="Product" width="300">
+        <el-table
+          @sort-change="onTableSort"
+          v-loading="isLoading"
+          :data="paginatedOrdersData"
+          style="width: 100%"
+        >
+          <el-table-column
+            :sortable="false"
+            prop="user_profile"
+            label="Worcker"
+            width="300"
+          >
             <template slot-scope="scope">
               <div class="horizontal__center gap-8">
+                <!-- <pre>{{ scope.row }}</pre> -->
                 <el-avatar
-                  shape="square"
+                  shape="circle"
                   size="large"
-                  :src="scope.row.productImage"
+                  :src="getAvatarLink(scope.row.user_profile.avatar)"
                 ></el-avatar>
 
-                <h4>{{ scope.row.productName }}</h4>
+                <h4>
+                  {{ scope.row.user_profile.first_name }}
+                  {{ scope.row.user_profile.last_name }}
+                </h4>
               </div>
             </template>
           </el-table-column>
 
-          <el-table-column prop="price" label="Price">
+          <el-table-column :sortable="false" prop="title" label="Gig Title">
             <template slot-scope="scope">
-              <h5>${{ scope.row.price }}</h5>
+              <h5>{{ scope.row.title }}</h5>
             </template>
           </el-table-column>
 
-          <el-table-column prop="views" label="Views">
+          <el-table-column :sortable="false" prop="verified" label="Verified">
             <template slot-scope="scope">
-              <div class="horizontal__center gap-4">
-                <font-awesome-icon :icon="['far', 'eye']" />
-
-                <p class="views">{{ scope.row.views }}k</p>
-              </div>
+              <el-tag :type="scope.row.verified ? '' : 'danger'" effect="dark">
+                {{ scope.row.verified ? "Verified" : "Unverified" }}
+              </el-tag>
             </template>
           </el-table-column>
 
-          <el-table-column prop="rating" label="Ratings" width="180">
+          <el-table-column
+            :sortable="false"
+            prop="delivery_days"
+            label="Delivery Days"
+          >
             <template slot-scope="scope">
-              <el-rate
-                v-model="scope.row.ratings"
-                disabled
-                show-score
-                text-color="#ff9900"
-                score-template="{value}"
-              >
-              </el-rate>
+              <h5>{{ scope.row.delivery_days }}</h5>
             </template>
           </el-table-column>
 
-          <el-table-column prop="iser" label="Seller" width="300">
+          <el-table-column
+            :sortable="false"
+            prop="views_count"
+            label="Total Views"
+          >
             <template slot-scope="scope">
-              <div class="horizontal__center gap-8">
-                <el-avatar
-                  shape="square"
-                  size="large"
-                  :src="scope.row.sellerImage"
-                ></el-avatar>
+              <h5>{{ scope.row.views_count }}</h5>
+            </template>
+          </el-table-column>
 
-                <h4>Jupiter</h4>
-              </div>
+          <el-table-column :sortable="false" prop="sales" label="Total Sales">
+            <template slot-scope="scope">
+              <h5>{{ scope.row.sales }}</h5>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+            :sortable="false"
+            prop="created_at"
+            label="Created At"
+          >
+            <template slot-scope="scope">
+              <h5>{{ $utils.dateFns.formatDate(scope.row.created_at) }}</h5>
             </template>
           </el-table-column>
 
@@ -95,20 +132,20 @@
                   slot="dropdown"
                 >
                   <el-dropdown-item
-                    :command="productDropdownCommands.ADD_TO_CART"
+                    :command="productDropdownCommands.TOGGLE_VERIFICATION"
                     class="c__icon__dropdown__item"
                   >
                     <font-awesome-icon :icon="['fas', 'shopping-basket']" />
 
-                    <span>Add To Cart</span>
+                    <span>Toggle Verification</span>
                   </el-dropdown-item>
 
                   <el-dropdown-item
-                    :command="productDropdownCommands.VIEW_PRODUCT"
+                    :command="productDropdownCommands.VIEW_GIG_INFO"
                     class="c__icon__dropdown__item"
                   >
                     <font-awesome-icon :icon="['far', 'square']" />
-                    <span> View Product </span>
+                    <span> View Gig </span>
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -121,7 +158,7 @@
           @current-change="onTablePageChange"
           background
           layout="prev, pager, next"
-          :total="products.length"
+          :total="tablePaginationInfo.totalSize"
         >
         </el-pagination>
       </div>
@@ -130,110 +167,260 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import { keyValueMaps } from "@/constants";
+
 export default {
   components: {
+    OrderCardSkeleton: () =>
+      import("@/components/Skeletons/Orders/OrderCardSkeleton"),
     ProductCard: () => import("@/components/Product/ProductCard"),
     FiltersHeader: () => import("@/components/Dashboard/FiltersHeader"),
     LoadMoreButton: () => import("@/components/Common/LoadMoreButton"),
   },
   data() {
     return {
-      products: [],
-      productFilters: [
+      orderStatusesMap: keyValueMaps.orderStatusMaps,
+      gigFilterse: [
         {
-          formName: "name",
-          name: "Name",
+          isTypeSort: true,
+          formName: "created_at",
+          name: "Ordered Date",
           options: [
             {
-              label: "Ascending",
-              value: "name:asc",
+              label: "Latest",
+              value: "desc",
             },
             {
-              label: "Descending",
-              value: "name:desc",
+              label: "Oldest",
+              value: "asc",
             },
           ],
         },
         {
-          formName: "price",
-          name: "Price",
-          options: [
-            {
-              label: "Highest to Lowest",
-              value: "price:desc",
-            },
-            {
-              label: "Lowest to Highest",
-              value: "price:asc",
-            },
-          ],
+          formName: "category_id",
+          name: "Category",
+          isFilterable: true,
+          hasFetchedData: false,
+          options: [],
         },
         {
-          formName: "ratings",
-          name: "Ratings",
+          formName: "verified",
+          name: "Verification Status",
           options: [
             {
-              label: "Highest to Lowest",
-              value: "rating:desc",
+              label: "All",
+              value: null,
             },
             {
-              label: "Lowest to Highest",
-              value: "rating:asc",
+              label: "Verified Gigs",
+              value: true,
+            },
+            {
+              label: "Unverified",
+              value: false,
             },
           ],
         },
       ],
       filtersForm: {
-        name: "",
-        price: "",
-        ratings: "",
+        created_at: "desc",
+        category_id: "",
+        verified: "",
       },
-      activeViewTab: "GRID",
-      paginationInfo: {
+      // activeViewTab: "GRID",
+      activeViewTab: "TABLE",
+      tablePaginationInfo: {
         currentPage: 1,
-        limit: 1,
+        limit: 10,
         totalSize: 10,
-        hasNext: true,
       },
-      productsTablePaginationInfo: {
-        activeTablePage: 1,
-        pageSize: 10,
+      cardsPaginationInfo: {
+        currentPage: 1,
+        hasNext: true,
+        limit: 10,
+        totalSize: 10,
       },
       productDropdownCommands: {
-        ADD_TO_CART: "ADD_TO_CART",
+        TOGGLE_VERIFICATION: "TOGGLE_VERIFICATION",
+        VIEW_GIG_INFO: "VIEW_GIG_INFO",
       },
+      isLoading: false,
       isLoadingMoreData: false,
 
       // new implementation
-      gigs: null,
+      gridGigs: null,
+      tableOrders: null,
+      sortData: {},
+      queries: {},
     };
   },
   computed: {
-    paginatedProductsData() {
-      return this.products.slice(
-        this.productsTablePaginationInfo.pageSize *
-          this.productsTablePaginationInfo.activeTablePage -
-          this.productsTablePaginationInfo.pageSize,
+    ...mapState("category", ["categories"]),
+    paginatedOrdersData() {
+      if (!this.tableOrders) return [];
 
-        this.productsTablePaginationInfo.pageSize *
-          this.productsTablePaginationInfo.activeTablePage
+      return this.tableOrders.slice(
+        (this.tablePaginationInfo.currentPage - 1) *
+          this.tablePaginationInfo.limit,
+        this.tablePaginationInfo.limit * this.tablePaginationInfo.currentPage
       );
     },
   },
   watch: {
     "$route.query": {
-      immediate: true,
+      // immediate: true,
       handler() {
-        this.fetchGigs();
+        if (this.viewType === "GRID") {
+          this.gridGigs = null;
+        } else {
+          this.tableOrders = null;
+        }
+        this.setQueries();
+        this.fetchOrders({
+          replaceExisting: true,
+          setDataForBothView: true,
+        });
+      },
+    },
+    categories: {
+      immediate: true,
+      handler(val) {
+        if (val) {
+          this.gigFilterse = this.gigFilterse.map((f) =>
+            f.formName !== "category_id"
+              ? f
+              : {
+                  ...f,
+                  options: val.map((v) => ({
+                    label: v.name,
+                    value: v._id,
+                  })),
+                  hasFetchedData: true,
+                }
+          );
+        }
       },
     },
   },
+  mounted() {
+    this.setQueries();
+    this.fetchOrders({
+      replaceExisting: false,
+    });
+
+    this.$store.dispatch("category/fetchCategories");
+  },
   methods: {
+    onFiltersSelectChange({ name, value, isTypeSort }) {
+      if (isTypeSort) {
+        this.filtersForm[name] = value;
+        if (this.sortData[name] !== undefined) {
+          delete this.sortData.sort_field;
+          delete this.sortData.sort_value;
+        } else {
+          this.sortData = {
+            ...this.sortData,
+            sort_field: name,
+            sort_value: value,
+          };
+        }
+      } else {
+        this.filtersForm[name] = value;
+
+        if (value !== null || value !== undefined) {
+          this.queries[name] = value;
+        } else {
+          delete this.queries[name];
+        }
+      }
+
+      const queryToReplaceRoute = {};
+      Object.keys(this.queries).forEach((k) => {
+        if (this.queries[k]) {
+          queryToReplaceRoute[k] = this.queries[k];
+        }
+      });
+
+      this.$router
+        .replace({
+          query: {
+            ...queryToReplaceRoute,
+            // [name]: value,
+          },
+        })
+        .catch((err) => {
+          err;
+        });
+
+      this.fetchOrders({
+        setDataForBothView: true,
+        replaceExisting: true,
+        setDataYourself: true,
+      });
+    },
+    setQueries() {
+      const { sort_field, sort_order, status } = this.$route.query;
+      // console.log(this.$route.query);
+
+      let tempSortData = {};
+
+      if (sort_field && sort_order) {
+        tempSortData = {
+          ...tempSortData,
+          sort_field,
+          sort_order,
+        };
+      }
+
+      this.queries = {
+        ...this.queries,
+      };
+
+      if (status) {
+        tempSortData.status = status;
+        this.filtersForm.verified =
+          status === "verified" ? true : status === "unverified" ? false : null;
+      } else {
+        delete tempSortData.status;
+        delete this.sortData.status;
+        this.filtersForm.verified = "all";
+      }
+
+      this.sortData = {
+        ...this.sortData,
+        ...tempSortData,
+      };
+    },
+    onTableSort({ prop, order }) {
+      // console.log(column, prop, order);
+      const sort_field = prop;
+      const sort_order = order || "desc";
+
+      this.$router
+        .replace({
+          query: {
+            sort_field,
+            sort_order,
+          },
+        })
+        .catch((err) => {
+          err;
+        });
+    },
+    getAvatarLink(avatar) {
+      if (!avatar)
+        return `https://images3.alphacoders.com/119/thumb-1920-1191196.jpg`;
+
+      return `${process.env.VUE_APP_API_URL}/${avatar}`;
+    },
     async handleLoadMore() {
       try {
         this.isLoadingMoreData = true;
-        this.paginationInfo.currentPage = this.paginationInfo.currentPage + 1;
-        await this.fetchGigs({
+        this.cardsPaginationInfo.currentPage =
+          this.cardsPaginationInfo.currentPage + 1;
+
+        await this.fetchOrders({
           replaceExisting: false,
         });
       } catch (err) {
@@ -242,106 +429,127 @@ export default {
         this.isLoadingMoreData = false;
       }
     },
-    async fetchGigs(
+    async fetchOrders(
       options = {
+        setDataForBothView: false,
         replaceExisting: true,
         setDataYourself: true,
+        viewType: "GRID",
       }
     ) {
-      try {
-        const query = {
-          // limit: this.paginationInfo.limit,
-          // page: this.paginationInfo.currentPage,
-          status: "",
-        };
-        const status = this.$route.query?.status || "verified";
+      if (this.isLoading) return false;
 
-        query.status = status;
+      options.setDataYourself =
+        options.setDataYourself === undefined ? true : options.setDataYourself;
+
+      const activePaginationKey =
+        this.activeViewTab === "TABLE"
+          ? "tablePaginationInfo"
+          : "cardsPaginationInfo";
+
+      const v = options.viewType || this.activeViewTab;
+      const activeArrayKey = v === "TABLE" ? "tableOrders" : "gridGigs";
+      const inactiveArrayKey = v === "TABLE" ? "gridGigs" : "tableOrders";
+
+      try {
+        this.isLoading = true;
+        let searchData = {
+          limit: this[activePaginationKey].limit,
+          page: this[activePaginationKey].currentPage,
+          ...this.sortData,
+        };
 
         const res = await this.$api.getWithPayload(
-          `/gigs?status=${status}&page=${this.paginationInfo.currentPage}`,
-          query
+          `/gigs?queries=${JSON.stringify(this.queries)}`,
+          searchData
         );
 
-        this.paginationInfo.limit = res.limit;
-        this.paginationInfo.totalSize = res.total;
-        this.paginationInfo.hasNext =
-          res.docs.length >= this.paginationInfo.limit;
+        this[activePaginationKey].limit = res.limit;
+        this[activePaginationKey].totalSize = res.total;
+
+        if (v === "GRID") {
+          this[activePaginationKey].hasNext =
+            res.docs.length >= this[activePaginationKey].limit;
+        }
 
         if (options.replaceExisting) {
-          this.gigs = res.docs;
+          this[activeArrayKey] = res.docs;
+
+          if (options.setDataForBothView) {
+            this[inactiveArrayKey] = res.docs;
+          }
         } else if (!options.replaceExisting && options.setDataYourself) {
-          if (this.gigs) {
+          if (this[activeArrayKey]) {
+            // this[activeArrayKey] = [...this[activeArrayKey], ...res.docs];
             res.docs.forEach((g) => {
-              if (this.gigs.find((gig) => gig._id === g._id)) {
+              if (
+                this[activeArrayKey].find(
+                  (order) =>
+                    order._id === g._id && order.created_at === g.created_at
+                )
+              ) {
                 return;
               }
 
-              this.gigs.push(g);
+              this[activeArrayKey].push(g);
+
+              if (options.setDataForBothView) {
+                this[inactiveArrayKey].push(g);
+              }
             });
+          } else {
+            this[activeArrayKey] = [...res.docs];
+
+            if (options.setDataForBothView) {
+              this[inactiveArrayKey] = [...res.docs];
+            }
           }
         }
 
-        console.log(res);
         return res;
       } catch (err) {
         err;
         throw err;
+      } finally {
+        this.isLoading = false;
       }
     },
-    onTablePageChange(page) {
-      this.productsTablePaginationInfo.activeTablePage = page;
-    },
-    generateProducts(amount = 8) {
-      const tempProducts = Array.from(Array(amount).keys()).map((idx) => ({
-        id: "product-" + idx,
-        category: "Pirates",
-        productName: "Product Name",
-        price: Math.round(Math.random() * 150),
-        views: (Math.random() * 30).toFixed(2),
-        ratings: parseInt((Math.random() * 4).toFixed(1)),
-        productImage: `https://picsum.photos/seed/${idx}/500/500`,
-        sellerImage: `https://avatars.dicebear.com/api/adventurer/${
-          2000 - idx
-        }.svg`,
-      }));
-
-      if (this.products.length === 0) {
-        this.products = tempProducts;
-      } else {
-        this.products = [...this.products, ...tempProducts];
-      }
-
-      this.products.unshift({
-        id: "product-one-piece",
-        category: "Pirates",
-        productName: "Ace, Sabo, Luffy by the cliff",
-        price: 2550,
-        views: 21.5,
-        ratings: 4.6,
-        productImage: `https://images5.alphacoders.com/605/thumb-1920-605588.jpg`,
-        sellerImage: `https://images6.alphacoders.com/911/thumb-1920-911401.jpg`,
+    async onTablePageChange(page) {
+      // if (this.tablePaginationInfo.currentPage >= page) {
+      //   this.tablePaginationInfo.currentPage = page;
+      //   return;
+      // }
+      this.tablePaginationInfo.currentPage = page;
+      await this.fetchOrders({
+        replaceExisting: false,
       });
-    },
-    handleLoadMoreData() {
-      this.isLoadingMoreData = true;
 
-      setTimeout(() => {
-        this.generateProducts(10);
-        this.isLoadingMoreData = false;
-      }, 1000);
+      // if (this.tablePaginationInfo.currentPage < page) {
+
+      // await this.fetchOrders({
+      //   replaceExisting: false,
+      // });
+      // }
     },
+
     onActiveViewTabSelected(selectedView) {
       this.activeViewTab = selectedView;
+
+      if (selectedView === "TABLE" && !this.tableOrders) {
+        this.fetchOrders({
+          view: "TABLE",
+        });
+      } else if (selectedView === "GRID" && !this.gridGigs) {
+        this.fetchOrders({
+          view: "GRID",
+        });
+      }
     },
     handleDropdownCommand(command) {
-      if (command === this.productDropdownCommands.ADD_TO_CART) {
+      if (command === this.productDropdownCommands.TOGGLE_VERIFICATION) {
         console.log(command);
       }
     },
-  },
-  mounted() {
-    this.generateProducts();
   },
 };
 </script>
@@ -350,7 +558,7 @@ export default {
 .pagination {
   margin-top: $spacing-2;
 }
-.products__grid {
+.orders__grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 3rem 1rem;

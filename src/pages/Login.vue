@@ -32,14 +32,22 @@
               placeholder="Email"
             ></el-input>
           </el-form-item> -->
-          <el-form-item label="Username" prop="username">
+          <el-form-item
+            :error="errors['username']"
+            label="Username"
+            prop="username"
+          >
             <el-input
               type="text"
               v-model="loginData.username"
               placeholder="Username"
             ></el-input>
           </el-form-item>
-          <el-form-item label="Password" prop="password">
+          <el-form-item
+            :error="errors['password']"
+            label="Password"
+            prop="password"
+          >
             <el-input
               type="password"
               v-model="loginData.password"
@@ -72,7 +80,7 @@
 <script>
 import GetStartedNavbar from "../components/Navbar/GetStartedNavbar.vue";
 
-const { mutations: mutationContants } = require("@/constants");
+const { mutations: mutationContants, vuexPrefixes } = require("@/constants");
 
 export default {
   components: {
@@ -81,6 +89,7 @@ export default {
   data() {
     return {
       isLoggingIn: false,
+      errors: {},
       loginData: {
         username: "worckhub",
         email: "",
@@ -142,24 +151,34 @@ export default {
       this.$refs.form.validate(async (valid) => {
         if (valid) {
           try {
+            this.errors = {};
             this.isLoggingIn = true;
             const res = await this.$api.post("/login", this.loginData);
-            this.$store.commit(mutationContants.user.SET_USER, res);
+            this.$store.commit(
+              `${vuexPrefixes.user}/${mutationContants.user.SET_USER}`,
+              res
+            );
+            localStorage.setItem("user", JSON.stringify(res));
 
             this.$message({
               message: "Logged in successfully",
               type: "success",
             });
+
             this.resetForm();
 
             setTimeout(() => {
               this.$router.push("/app");
             }, 1000);
           } catch (err) {
-            console.log(err, err.response);
             let errorMessage = "Something went wrong";
 
             if (err?.response) {
+              this.errors = {
+                username: "Invalid Credentials",
+                password: "Invalid Credentials",
+              };
+
               errorMessage = err?.response?.data?.message;
             }
             this.$notify({

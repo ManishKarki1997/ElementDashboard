@@ -1,6 +1,12 @@
+const vuexPrefixes = {
+  user: "user",
+  dashboard: "dashboard",
+  categories: "categories",
+};
+
 const mutations = {
   user: {
-    SET_USER: "SET_USER",
+    SET_USER: `SET_USER`,
   },
   dashboard: {
     SET_STATS: "SET_STATS",
@@ -11,4 +17,5 @@ const mutations = {
   },
 };
 
+export { vuexPrefixes };
 export default mutations;

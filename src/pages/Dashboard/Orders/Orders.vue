@@ -77,7 +77,7 @@
 
           <el-table-column :sortable="false" prop="hirer" label="Hirer">
             <template slot-scope="scope">
-              <h5>${{ scope.row.hirer.email }}</h5>
+              <h4>{{ scope.row.hirer.email }}</h4>
             </template>
           </el-table-column>
 
@@ -99,7 +99,7 @@
             label="Created At"
           >
             <template slot-scope="scope">
-              <h4>{{ scope.row.created_at }}</h4>
+              <h4>{{ $utils.dateFns.formatDate(scope.row.created_at) }}</h4>
             </template>
           </el-table-column>
 
@@ -329,7 +329,7 @@ export default {
       } else {
         this.filtersForm[name] = value;
 
-        if (value) {
+        if (value !== null || value !== undefined) {
           this.queries[name] = value;
         } else {
           delete this.queries[name];
@@ -343,12 +343,16 @@ export default {
         }
       });
 
-      this.$router.replace({
-        query: {
-          ...queryToReplaceRoute,
-          // [name]: value,
-        },
-      });
+      this.$router
+        .replace({
+          query: {
+            ...queryToReplaceRoute,
+            // [name]: value,
+          },
+        })
+        .catch((err) => {
+          err;
+        });
 
       this.fetchOrders({
         setDataForBothView: true,

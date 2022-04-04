@@ -4,12 +4,20 @@
     :class="{ isInWishlist }"
     class="product__card"
   >
+    <!-- <pre>{{ gig }}</pre> -->
     <div class="product__backdrop">
-      <!-- <img :src="gig.productImage" alt="Product Image" /> -->
-      <img
-        src="https://images3.alphacoders.com/119/thumb-1920-1191196.jpg"
-        alt="Product Image"
-      />
+      <template v-if="gig.galleries && gig.galleries.length > 0">
+        <img
+          :src="$utils.getAvatarLink(gig.galleries[0].path)"
+          alt="Gig Image"
+        />
+      </template>
+      <template v-else>
+        <img
+          :src="$utils.getAvatarLink(gig.galleries[0])"
+          alt="Product Image"
+        />
+      </template>
       <div class="overlay"></div>
 
       <el-button
@@ -33,7 +41,7 @@
           shape="circle"
           :size="56"
           fit="cover"
-          src="https://images3.alphacoders.com/119/thumb-1920-1191196.jpg"
+          :src="$utils.getAvatarLink(gig.user_profile.avatar)"
         ></el-avatar>
       </div>
 
@@ -69,28 +77,34 @@
               class="c__icon__dropdown__item"
             >
               <font-awesome-icon :icon="['far', 'square']" />
-              <span> View Product </span>
+              <span> View Gig </span>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
 
       <div class="product__pricing">
-        <h2>${{ gig.price }}</h2>
+        <p>Starting from</p>
+        <h2>${{ minimumPackagePrice }}</h2>
       </div>
 
       <div class="product__meta__info horizontal__center gap-8">
         <div class="icon__item">
           <font-awesome-icon :icon="['far', 'eye']" />
 
-          <p class="views">{{ gig.views }}k</p>
+          <p class="views">{{ gig.views_count }}</p>
         </div>
         <div class="icon__item">
           <p class="bullet">&bull;</p>
         </div>
         <div class="icon__item">
           <font-awesome-icon :icon="['far', 'star']" />
-          <p class="review__count">{{ gig.ratings }}</p>
+          <p class="review__count">
+            <template v-if="gig.user_rating">
+              {{ gig.user_rating.rating.toFixed(2) }}
+            </template>
+            <template v-else> 0 </template>
+          </p>
         </div>
       </div>
     </div>
@@ -114,6 +128,13 @@ export default {
     },
   },
   computed: {
+    minimumPackagePrice() {
+      if (!this.gig) return "N/A";
+
+      const prices = this.gig.packages.map((pkg) => pkg.amount);
+
+      return prices.sort((a, b) => a - b)[0];
+    },
     animationObj() {
       if (this.disableAnimation) {
         return { classes: "" };
@@ -245,10 +266,20 @@ export default {
     }
 
     .product__pricing {
+      @include x-center;
+      gap: $spacing-8px;
       margin-bottom: $spacing-1;
 
       h2 {
         color: $danger-color;
+      }
+
+      p {
+        font-size: 0.9rem;
+
+        @include themed() {
+          color: t($text-secondary);
+        }
       }
     }
 
