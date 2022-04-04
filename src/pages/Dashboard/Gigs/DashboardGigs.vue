@@ -24,13 +24,13 @@
               <font-awesome-icon :icon="['fas', 'shopping-basket']" />
             </template>
             <template #description>
-              <p>Sorry, there are no orders available</p>
+              <p>Sorry, there are no gigs available</p>
             </template>
           </el-empty>
         </template>
       </div>
       <LoadMoreButton
-        v-if="cardsPaginationInfo.hasNext && gridGigs"
+        v-if="cardsPaginationInfo.hasNext && gridGigs && gridGigs.length > 0"
         @loadMore="handleLoadMore"
         :loading="isLoadingMoreData"
       />
@@ -217,7 +217,7 @@ export default {
               value: true,
             },
             {
-              label: "Unverified",
+              label: "Unverified Gigs",
               value: false,
             },
           ],
@@ -327,7 +327,6 @@ export default {
         }
       } else {
         this.filtersForm[name] = value;
-
         if (value !== null || value !== undefined) {
           this.queries[name] = value;
         } else {
@@ -335,10 +334,31 @@ export default {
         }
       }
 
+      if (name === "verified") {
+        this.filtersForm["verified"] = value;
+        this.sortData["status"] = value === true ? "verified" : "unverified";
+
+        if (value === null) {
+          delete this.sortData["status"];
+        }
+
+        if (value === null) {
+          delete this.queries[name];
+        }
+      }
+
       const queryToReplaceRoute = {};
       Object.keys(this.queries).forEach((k) => {
-        if (this.queries[k]) {
-          queryToReplaceRoute[k] = this.queries[k];
+        if (this.queries[k] !== undefined) {
+          if (k === "verified" && this.queries[k] === false) {
+            queryToReplaceRoute.status = "unverified";
+          } else if (k === "verified" && this.queries[k] === true) {
+            queryToReplaceRoute.status = "verified";
+          } else if (k === "verified" && this.queries[k] === null) {
+            queryToReplaceRoute.status = "all";
+          } else {
+            queryToReplaceRoute[k] = this.queries[k];
+          }
         }
       });
 
@@ -346,7 +366,6 @@ export default {
         .replace({
           query: {
             ...queryToReplaceRoute,
-            // [name]: value,
           },
         })
         .catch((err) => {

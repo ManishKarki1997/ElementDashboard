@@ -1,5 +1,6 @@
 <template>
   <div v-animate-css="animationObj" class="user__compact__card">
+    <!-- <pre>{{ user }}</pre> -->
     <div class="user__left">
       <div class="user__image">
         <el-tooltip
@@ -13,7 +14,11 @@
           <el-badge
             is-dot
             class="item"
-            :type="user.is_email_verified ? 'success' : 'danger'"
+            :type="
+              user.is_email_verified || user.role === 'super'
+                ? 'success'
+                : 'danger'
+            "
           >
             <el-avatar
               v-if="user.user_profile && user.user_profile.avatar"
@@ -39,13 +44,23 @@
           <h4 v-if="user.user_profile" class="user__name">
             {{ user.user_profile.first_name }} {{ user.user_profile.last_name }}
           </h4>
+
+          <h4 v-else-if="user.role === 'super'" class="user__name">
+            {{ user.first_name }} {{ user.last_name }}
+          </h4>
           <h4 v-else class="user__name">
             {{ user.email }}
           </h4>
         </template>
 
         <p class="user__subtitle small__secondary capitalize">
-          {{ user.default_role === "both" ? "SuperAdmin" : user.default_role }}
+          {{
+            user.default_role === "both"
+              ? "SuperAdmin"
+              : user.role === "super"
+              ? "Admin"
+              : user.default_role
+          }}
         </p>
       </div>
     </div>

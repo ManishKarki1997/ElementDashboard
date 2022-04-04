@@ -118,22 +118,22 @@ export default {
             {
               name: "Admins",
               iconName: "el-icon-user",
-              path: "/app/users?role=admin",
+              path: "/app/users?default_role=admin",
             },
             {
               name: "Worckers",
               iconName: "el-icon-user",
-              path: "/app/users?role=worcker",
+              path: "/app/users?default_role=worcker",
             },
             {
               name: "Independent Hirers",
               iconName: "el-icon-user",
-              path: "/app/users?role=independent-hirer",
+              path: "/app/users?default_role=hirer",
             },
             {
               name: "Organization Hirers",
               iconName: "el-icon-user",
-              path: "/app/users?role=organization-hirer",
+              path: "/app/users?default_role=organisation",
             },
           ],
         },
